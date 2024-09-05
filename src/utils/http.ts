@@ -1,0 +1,14 @@
+export const CODE_OK = 200
+export const CODE_CREATED = 201
+export const ERROR_CODE_VALIDATION = 422
+export const ERROR_CODE_UNAUTHENTICATED = 401
+export const ERROR_CODE_UNAUTHORIZED = 402
+export const ERROR_CODE_NOT_FOUND = 404
+export const ERROR_CODE_SERVER = 500
+export const REDIRECT_CODE_FOUND = 302
+export const REDIRECT_CODE_PERMANENT = 301
+export const ERROR_CODE_CONFLICT = 409
+export const ERROR_CODE_SERVICE_UNAVAILABLE = 503
+export const ERROR_CODE_BAD_GATEWAY = 502
+export const ERROR_CODE_GATEWAY_TIMEOUT = 504
+export const ERROR_CORS = 0
