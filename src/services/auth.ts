@@ -24,6 +24,25 @@ export const authLogin = async (
   return result?.data as ApiResponse<LoginResponse>;
 };
 
+export type RegisterPayload = {
+  email: string;
+  password: string;
+  confirmation_password: string;
+  fullname: string;
+  phone: string;
+  city: string;
+  country: string;
+  postal_code: string;
+};
+
+export const authRegister = async (
+  payload: LoginPayload
+): Promise<ApiResponse<LoginResponse>> => {
+  const result = await axios.post("/auth/register", payload);
+
+  return result?.data as ApiResponse<LoginResponse>;
+};
+
 export type GetProfileResponse = {
   id: string;
   email: string;

@@ -1,8 +1,13 @@
 import loadable from "@loadable/component";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-const Login = loadable(() => import("pages/auth/Login"));
-const NotFound = loadable(() => import("pages/404"));
+// ==> Layouts
+import FullLayout from "layouts/full/FullLayout";
+import BlankLayout from "layouts/blank/BlankLayout";
+
+import NotFound from "pages/404";
+import Login from "pages/auth/login";
+import Register from "pages/auth/register";
 
 // ==> Admin
 const Staff = loadable(() => import("pages/staff"));
@@ -15,10 +20,6 @@ const SettingToko = loadable(() => import("pages/setting-toko"));
 
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
-
-// ==> Layouts
-const FullLayout = loadable(() => import("layouts/full/FullLayout"));
-const BlankLayout = loadable(() => import("layouts/blank/BlankLayout"));
 
 import Validate from "pages/validate";
 
@@ -57,7 +58,7 @@ const routers = createBrowserRouter([
       </AuthenticatedRoute>
     ),
     children: [
-      { index: true, element: <Navigate to="/dashboard" replace /> },
+      { index: true, element: <Navigate to="/pelanggan/dashboard" replace /> },
       { path: "dashboard", element: <>PELANGGAN</> },
       { path: "transaksi", element: <>TRANSAKSI PELANGGAN</> },
     ],
@@ -65,14 +66,25 @@ const routers = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <>
-        <BlankLayout />
-      </>
-    ),
+    element: <BlankLayout />,
     children: [
       { index: true, element: <UserLanding /> },
-      { path: "masuk", element: <Login /> },
+      {
+        path: "masuk",
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "daftar",
+        element: (
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        ),
+      },
     ],
     errorElement: <NotFound />,
   },

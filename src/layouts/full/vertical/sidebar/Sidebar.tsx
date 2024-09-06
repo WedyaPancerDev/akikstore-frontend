@@ -1,4 +1,4 @@
-import { useMediaQuery, Box, Drawer, useTheme } from "@mui/material";
+import { useMediaQuery, Box, Drawer, useTheme, Theme } from "@mui/material";
 import SidebarItems from "./SidebarItems";
 // import Logo from "components/Logo";
 import { useSelector, useDispatch, type AppState } from "store/Store";
@@ -11,10 +11,12 @@ import { Profile } from "./SidebarProfile/Profile";
 import Logo from "components/Logo";
 
 const Sidebar = (): JSX.Element => {
-  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
-  const customizer = useSelector((state: AppState) => state.customizer);
-  const dispatch = useDispatch();
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
+  const customizer = useSelector((state: AppState) => state.customizer);
+
   const toggleWidth =
     customizer.isCollapse && !customizer.isSidebarHover
       ? customizer.MiniSidebarWidth

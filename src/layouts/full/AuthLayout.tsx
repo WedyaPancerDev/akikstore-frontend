@@ -1,12 +1,21 @@
 import { Grid, Box, Typography } from "@mui/material";
 
 import PageContainer from "components/Container/PageContainer";
-import AuthLogin from "./module/AuthLoginModule";
 import Logo from "components/Logo";
 
-const Login = (): JSX.Element => {
+type AuthLayoutProps = {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+};
+
+const AuthLayout = ({
+  title,
+  description,
+  children,
+}: AuthLayoutProps): JSX.Element => {
   return (
-    <PageContainer title="Masuk Ke Akun - AKIKSTORE" description="">
+    <PageContainer title={`${title} - AKIKSTORE`} description={description}>
       <Grid
         container
         spacing={0}
@@ -83,7 +92,7 @@ const Login = (): JSX.Element => {
           alignItems="center"
         >
           <Box p={2} width="75%" marginInline="auto">
-            <AuthLogin />
+            {children}
           </Box>
         </Grid>
       </Grid>
@@ -91,4 +100,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default AuthLayout;

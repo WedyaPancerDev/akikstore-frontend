@@ -1,17 +1,22 @@
 import { useLocation } from "react-router-dom";
+import type { ValidateProps } from "types";
 import { Box, List, type Theme, useMediaQuery } from "@mui/material";
 
 import NavItem from "./NavItem";
 import NavCollapse from "./NavCollapse";
 import NavGroup from "./NavGroup/NavGroup";
-import { AdminMenuItems } from "./MenuItems";
+import { AdminMenuItems, CustomerMenuItems } from "./MenuItems";
 import { useDispatch, useSelector, type AppState } from "store/Store";
 import { setToggleMobileSidebar } from "store/customizer/CustomizerSlice";
+import useCookie from "hooks/useCookie";
 
 const SidebarItems = (): JSX.Element => {
   const { pathname } = useLocation();
   const pathDirect = pathname;
   const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf("/"));
+
+  const { getFromLocalStorage } = useCookie();
+
   const customizer = useSelector((state: AppState) => state.customizer);
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
   const hideMenu: any = lgUp
@@ -19,10 +24,16 @@ const SidebarItems = (): JSX.Element => {
     : "";
   const dispatch = useDispatch();
 
+  const secureValue = getFromLocalStorage("validate");
+  const currentRole = (secureValue as unknown as ValidateProps)?.role;
+
   return (
     <Box sx={{ px: 2.5 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">
-        {AdminMenuItems?.map((item) => {
+        {(["admin", "employee"].includes(currentRole)
+          ? AdminMenuItems
+          : CustomerMenuItems
+        )?.map((item) => {
           if (item.subheader) {
             return (
               <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />

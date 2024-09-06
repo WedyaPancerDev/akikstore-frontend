@@ -9,7 +9,7 @@ import {
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
 import * as yup from "yup";
@@ -77,7 +77,7 @@ const AuthLogin = (): JSX.Element => {
         const valueSecure = {
           role: data?.role,
           user_id: data?.user_id,
-          status: 'signin'
+          status: "signin",
         };
 
         saveToLocalStorage("validate", JSON.stringify(valueSecure));
@@ -88,7 +88,7 @@ const AuthLogin = (): JSX.Element => {
         });
 
         clearForm();
-        toast.success("Hi! Selamat datang di sistem 😉");
+        toast.success("Hi! Selamat datang 😉");
         navigate("/validate", { replace: true });
 
         setIsSubmitting(false);
@@ -272,9 +272,26 @@ const AuthLogin = (): JSX.Element => {
         </Box>
       </Box>
 
-      <Typography variant="caption" fontWeight={600}>
-        @{new Date().getFullYear()} - AKIKSTORE
-      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="caption" fontWeight={600}>
+          @{new Date().getFullYear()} - AKIKSTORE
+        </Typography>
+
+        <Typography variant="caption" fontWeight={600}>
+          Tidak punya akun?{" "}
+          <Box
+            component={Link}
+            to="/daftar"
+            sx={{
+              "&:hover": { textDecoration: "none" },
+              textDecoration: "underline",
+              color: "#3b82f6",
+            }}
+          >
+            Daftar Sekarang
+          </Box>
+        </Typography>
+      </Box>
     </Fragment>
   );
 };

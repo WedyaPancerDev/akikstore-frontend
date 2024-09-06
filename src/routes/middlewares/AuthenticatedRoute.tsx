@@ -10,15 +10,10 @@ import { setProfile } from "store/apps/DashboardSlice";
 import { useProfileUser } from "hooks/react-query/useAuth";
 import { AppState, useDispatch, useSelector } from "store/Store";
 import { ERROR_CODE_UNAUTHENTICATED } from "utils/http";
+import type { ValidateProps } from "types";
 
 type AuthenticatedRouteProps = {
   children: React.ReactNode;
-};
-
-type ValidateProps = {
-  role: string;
-  user_id: string;
-  status: "signin" | "signout";
 };
 
 const AuthenticatedRoute = ({

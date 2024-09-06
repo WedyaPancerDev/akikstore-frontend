@@ -91,14 +91,14 @@ export const CustomerMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
-    title: "Dashboard",
+    title: "Dashboard Pelanggan",
     icon: IconLayoutDashboard,
     href: "/pelanggan/dashboard",
     chipColor: "secondary",
   },
   {
     id: uniqueId(10),
-    title: "Transaksi",
+    title: "Riwayat Transaksi",
     icon: IconCashRegister,
     href: "/pelanggan/transaksi",
     chipColor: "secondary",
