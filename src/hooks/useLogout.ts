@@ -7,6 +7,8 @@ import useCookie from "hooks/useCookie";
 import { AxiosError } from "axios";
 import { ERROR_CODE_UNAUTHENTICATED } from "utils/http";
 import { setTokenBearer } from "utils/axios";
+import { useDispatch } from "store/Store";
+import { setProfile } from "store/apps/DashboardSlice";
 
 interface ILogoutHookReturn {
   handleLogout: () => Promise<void>;
@@ -15,6 +17,7 @@ interface ILogoutHookReturn {
 
 const useLogout = (): ILogoutHookReturn => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { removeFromCookie, removeFromLocalStorage } = useCookie();
 
   const [isLoadingLogout, setIsLoadingLogout] = useState<boolean>(false);
@@ -23,6 +26,7 @@ const useLogout = (): ILogoutHookReturn => {
     setTokenBearer("");
     removeFromCookie("@key");
     removeFromLocalStorage("validate");
+    dispatch(setProfile(null));
 
     navigate("/masuk", {
       replace: true,

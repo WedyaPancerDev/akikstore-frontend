@@ -41,8 +41,9 @@ const api = axios.create({
 handleUseInterceptors(api);
 
 api.defaults.headers.common.Authorization = `Bearer ${currentToken}`;
+
 export const setTokenBearer = (token: string): void => {
-  api.defaults.headers.common.Authorization = `Bearer ${currentToken || token}`;
+  api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export default api;
