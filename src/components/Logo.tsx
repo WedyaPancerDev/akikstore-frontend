@@ -1,6 +1,6 @@
 import { BaseSVGProps } from "../types";
 
-const Logo = ({ className, color }: BaseSVGProps) => {
+const Logo = ({ className, color, style }: BaseSVGProps) => {
   return (
     <svg
       width="44"
@@ -9,6 +9,7 @@ const Logo = ({ className, color }: BaseSVGProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      style={style}
     >
       <path
         d="M22 42C33.0457 42 42 33.0457 42 22C42 10.9543 33.0457 2 22 2C10.9543 2 2 10.9543 2 22C2 33.0457 10.9543 42 22 42Z"

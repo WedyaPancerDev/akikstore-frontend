@@ -1,0 +1,25 @@
+.Slider {
+  --sb-track-color: #f2f2f2;
+  --sb-thumb-color: #D4D4D8;
+  --sb-size: 10px;
+}
+
+.Slider::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.Slider::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 0.875rem;
+}
+
+.Slider::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 0.875rem;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .Slider {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}

@@ -11,9 +11,11 @@ import { useDispatch } from "store/Store";
 import { setProfile } from "store/apps/DashboardSlice";
 
 interface ILogoutHookReturn {
-  handleLogout: () => Promise<void>;
+  handleLogout: (url: string) => Promise<void>;
   isLoadingLogout: boolean;
 }
+
+type LogoutProps = Partial<string>;
 
 const useLogout = (): ILogoutHookReturn => {
   const navigate = useNavigate();
@@ -22,24 +24,24 @@ const useLogout = (): ILogoutHookReturn => {
 
   const [isLoadingLogout, setIsLoadingLogout] = useState<boolean>(false);
 
-  const resetAndRedirect = (): void => {
+  const resetAndRedirect = (url: string): void => {
     setTokenBearer("");
     removeFromCookie("@key");
     removeFromLocalStorage("validate");
     dispatch(setProfile(null));
 
-    navigate("/masuk", {
+    navigate(url, {
       replace: true,
     });
   };
 
-  const handleLogout = async (): Promise<void> => {
+  const handleLogout = async (url: LogoutProps = "/masuk"): Promise<void> => {
     try {
       setIsLoadingLogout(true);
       const response = await authLogout();
 
       if (response?.success) {
-        resetAndRedirect();
+        resetAndRedirect(url);
 
         toast.success("Berhasil logout!");
         setIsLoadingLogout(false);
@@ -54,9 +56,9 @@ const useLogout = (): ILogoutHookReturn => {
       console.error({ error });
 
       setIsLoadingLogout(false);
-      if (status === ERROR_CODE_UNAUTHENTICATED) {
-        resetAndRedirect();
+      resetAndRedirect(url);
 
+      if (status === ERROR_CODE_UNAUTHENTICATED) {
         window.location.reload();
         toast.error("Sesi Anda telah berakhir, silahkan login kembali");
       } else {

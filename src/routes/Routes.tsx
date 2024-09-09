@@ -4,6 +4,9 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 // ==> Layouts
 import FullLayout from "layouts/full/FullLayout";
 import BlankLayout from "layouts/blank/BlankLayout";
+const UserLandingLayout = loadable(
+  () => import("layouts/blank/UserLandingLayout")
+);
 
 import NotFound from "pages/404";
 import Login from "pages/auth/login";
@@ -66,9 +69,23 @@ const routers = createBrowserRouter([
   },
   {
     path: "/",
+    element: <UserLandingLayout />,
+    children: [
+      {
+        index: true,
+        element: <UserLanding />,
+      },
+      {
+        path: "/produk/:category_name/:product_code",
+        element: <>DETAIL</>,
+      },
+    ],
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/",
     element: <BlankLayout />,
     children: [
-      { index: true, element: <UserLanding /> },
       {
         path: "masuk",
         element: (

@@ -37,7 +37,6 @@ const Profile = (): JSX.Element => {
     <Box>
       <IconButton
         size="large"
-        aria-label="show 11 new notifications"
         color="inherit"
         aria-controls="msgs-menu"
         aria-haspopup="true"

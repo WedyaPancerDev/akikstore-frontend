@@ -36,7 +36,7 @@ const Validate = (): JSX.Element => {
     if (["admin", "employee"].includes(currentRole)) {
       navigate("/staff", { replace: true });
     } else {
-      navigate("/pelanggan", { replace: true });
+      navigate("/", { replace: true });
     }
   };
 

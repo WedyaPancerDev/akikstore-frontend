@@ -1,6 +1,7 @@
 export type BaseSVGProps = {
   className?: string;
   color?: string;
+  style?: React.CSSProperties;
 };
 
 export type Role = "admin" | "employee" | "customer";

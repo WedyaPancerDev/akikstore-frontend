@@ -1,19 +1,16 @@
-import { Box } from "@mui/material";
-import HeaderLandingCustomer from "components/Customers/Header";
+import loadable from "@loadable/component";
+import PageContainer from "components/Container/PageContainer";
+
+const Menus = loadable(() => import("components/Customers/Menus"));
 
 const CustomerLanding = (): JSX.Element => {
   return (
-    <Box
-      component="section"
-      sx={{
-        maxWidth: "1080px",
-        width: "100%",
-        margin: "0 auto",
-        border: "1px solid #000",
-      }}
+    <PageContainer
+      title="AKIKSTORE - Jual beli batu akik dan pusaka keramat"
+      description="#"
     >
-      <HeaderLandingCustomer />
-    </Box>
+      <Menus />
+    </PageContainer>
   );
 };
 
