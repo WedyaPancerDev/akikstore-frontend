@@ -1,7 +1,12 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 
 import type { ApiResponse } from "types/response";
-import { getUserProfile, type GetProfileResponse } from "services/auth";
+import {
+  getUserProfile,
+  type GetProfileResponse,
+  getStatusToken,
+  type GetStatusTokenResponse,
+} from "services/auth";
 import useCookie from "hooks/useCookie";
 
 const useProfileUser = (): UseQueryResult<
@@ -23,4 +28,20 @@ const useProfileUser = (): UseQueryResult<
   });
 };
 
-export { useProfileUser };
+const useStatusToken = (token: string): UseQueryResult<
+  ApiResponse<GetStatusTokenResponse>,
+  Error
+> => {
+  const QUERY_KEY = ["user-token", token];
+
+  const staleOneHour = 1000 * 60 * 60 * 1;
+
+  return useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: async () => (token ? await getStatusToken() : null),
+    staleTime: staleOneHour,
+    retry: false,
+  });
+};
+
+export { useProfileUser, useStatusToken };

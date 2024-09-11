@@ -14,7 +14,7 @@ import { GetCategoryResponse } from "services/category";
 import { useCategories } from "hooks/react-query/useCategory";
 import { useProducts } from "hooks/react-query/useProduct";
 
-import menus from "./menus.module.css";
+import menus from "theme/slider.module.css";
 import MenusCardProduct from "../MenusCard";
 import MenusCardSkeleton from "../MenusCard/MenusCardSkeleton";
 import useCart from "hooks/useCart";
@@ -39,7 +39,7 @@ const Menus = (): JSX.Element => {
     useCategories();
   const { data: productData, isLoading: isLoadingProduct } = useProducts();
 
-  const { handleSaveCart } = useCart();
+  const { handleIncreaseCart } = useCart();
 
   const { watch, control } = useForm({
     defaultValues: {
@@ -52,7 +52,7 @@ const Menus = (): JSX.Element => {
   const { search } = watch();
 
   const handleSelectedProduct = (data: PickProductState): void => {
-    handleSaveCart(data);
+    handleIncreaseCart(data);
   };
 
   const filteredData = useMemo(() => {

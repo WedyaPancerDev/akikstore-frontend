@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import moment from "moment";
 import { IconBasket, IconInfoCircle } from "@tabler/icons-react";
 import {
@@ -58,13 +57,7 @@ const MenusCardProduct = ({
           <b>{moment(data.created_at).fromNow() ?? "-"}</b>
         </Typography>
       </Box>
-      <Typography
-        component={Link}
-        to={`/produk/${data?.category_name?.toLowerCase()}/${
-          data?.product_code
-        }`}
-        sx={{ overflow: "hidden" }}
-      >
+      <Box sx={{ overflow: "hidden" }}>
         {data?.images ? (
           <img
             src={data?.images ?? ""}
@@ -72,17 +65,18 @@ const MenusCardProduct = ({
             width="100%"
             loading="lazy"
             className="hoverImage"
+            style={{ minHeight: "18.5rem" }}
           />
         ) : (
           <Box
             sx={{
-              height: "18.5rem",
+              minHeight: "18.5rem",
               borderRadius: 0,
               backgroundColor: "#d1d5db",
             }}
           />
         )}
-      </Typography>
+      </Box>
       <Tooltip title="Tambah Ke Keranjang">
         <Fab
           size="medium"
@@ -101,6 +95,7 @@ const MenusCardProduct = ({
               product_code: data?.product_code,
               max_stock: data?.stock,
               title: data?.title,
+              category: data?.category_name,
             });
           }}
         >

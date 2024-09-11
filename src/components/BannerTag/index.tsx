@@ -1,59 +1,22 @@
 import { Box, Typography } from "@mui/material";
-import {
-  IconBuildingStore,
-  IconCashRegister,
-  IconLayoutDashboard,
-  IconNotes,
-  IconShoppingCart,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconTicket } from "@tabler/icons-react";
 
 import ShinySingle from "components/Svg/ShinySingle";
-
-type ActiveIconProps = Record<string, JSX.Element>;
+import moment from "moment";
+import { type CSSProperties } from "react";
+import { GetCouponResponse } from "services/coupon";
+import { formatPrice } from "utils/helpers";
 
 type BannerTagProps = {
-  type:
-    | "dashboard"
-    | "pelanggan"
-    | "transaksi"
-    | "produk"
-    | "income"
-    | "setting"
-    | "staff";
+  data?: GetCouponResponse;
+  sx?: CSSProperties;
 };
 
-const activeIcon: ActiveIconProps = {
-  dashboard: <IconLayoutDashboard style={{ flexShrink: 0 }} />,
-  pelanggan: <IconUsers style={{ flexShrink: 0 }} />,
-  transaksi: <IconCashRegister style={{ flexShrink: 0 }} />,
-  produk: <IconShoppingCart style={{ flexShrink: 0 }} />,
-  income: <IconNotes style={{ flexShrink: 0 }} />,
-  setting: <IconBuildingStore style={{ flexShrink: 0 }} />,
-  staff: <IconUsers style={{ flexShrink: 0 }} />,
-};
+const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
+  const formatDueDate = data?.expired_at
+    ? moment(data?.expired_at).format("DD MMMM YYYY")
+    : null;
 
-const activeTitle: Record<string, string> = {
-  dashboard: "Dashboard",
-  pelanggan: "Pelanggan",
-  transaksi: "Transaksi",
-  produk: "Produk & Kategori",
-  income: "Pemasukan & Pengeluaran",
-  setting: "Setting Toko",
-  staff: "Staff",
-};
-
-const activeDescription: Record<string, string> = {
-  dashboard: "Lihat informasi terkini",
-  pelanggan: "Pelanggan Terdaftar",
-  transaksi: "Transaksi Pelanggan Terbaru",
-  produk: "Informasi Produk & Kategori",
-  income: "Laporan mengenai Pemasukan & Pengeluaran",
-  setting: "Pengaturan Toko",
-  staff: "Informasi Staff",
-};
-
-const BannerTag = ({ type }: BannerTagProps): JSX.Element => {
   return (
     <Box
       sx={{
@@ -75,20 +38,47 @@ const BannerTag = ({ type }: BannerTagProps): JSX.Element => {
           zIndex: 5,
         }}
       >
-        {activeIcon[type] || <></>}
+        <IconTicket />
 
         <Box
-          sx={{ display: "flex", flexDirection: "column", marginLeft: "16px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "16px",
+            width: "100%",
+          }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 700,
-              letterSpacing: "-0.035em",
-            }}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            {activeTitle[type] || "-"}
-          </Typography>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "-0.035em",
+              }}
+            >
+              {data?.code ?? "Tidak ada kupon 😭"}
+            </Typography>
+
+            {data?.type && (
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 600,
+                  letterSpacing: "-0.035em",
+                }}
+              >
+                Diskon{" "}
+                {data?.type === "fixed"
+                  ? formatPrice(data.discount)
+                  : `${data?.discount}%`}
+              </Typography>
+            )}
+          </Box>
+
           <Typography
             variant="body1"
             sx={{
@@ -96,7 +86,7 @@ const BannerTag = ({ type }: BannerTagProps): JSX.Element => {
               marginTop: "4px",
             }}
           >
-            {activeDescription[type] || "-"}
+            Berlaku hingga {formatDueDate ?? "-"}
           </Typography>
         </Box>
       </Box>

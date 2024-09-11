@@ -9,7 +9,7 @@ import {
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
 import * as yup from "yup";
@@ -31,9 +31,12 @@ const formSchema = yup.object().shape({
 });
 
 const AuthLogin = (): JSX.Element => {
-  const { saveCookie, saveToLocalStorage } = useCookie();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
+  const redirectTo = searchParams.get("to");
+
+  const { saveCookie, saveToLocalStorage } = useCookie();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -77,6 +80,8 @@ const AuthLogin = (): JSX.Element => {
         const valueSecure = {
           role: data?.role,
           user_id: data?.user_id,
+          person: data?.person,
+          avatar: data?.avatar,
           status: "signin",
         };
 
@@ -88,9 +93,18 @@ const AuthLogin = (): JSX.Element => {
         });
 
         clearForm();
+
+        if (redirectTo) {
+          navigate(redirectTo, { replace: true });
+          setIsSubmitting(false);
+
+          toast.success("Yukss! Lanjutkan pembayaran kamu 😉");
+
+          return;
+        }
+
         toast.success("Hi! Selamat datang 😉");
         navigate("/validate", { replace: true });
-
         setIsSubmitting(false);
         return;
       }

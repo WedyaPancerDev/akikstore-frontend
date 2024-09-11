@@ -118,16 +118,7 @@ const Sidebar = (): JSX.Element => {
       {/* Logo */}
       {/* ------------------------------------------- */}
       <Box p={2}>
-        <img
-          src={"/assets/images/backgrounds/pekka.png"}
-          alt="bg"
-          style={{
-            width: "100%",
-            maxWidth: "70px",
-            objectFit: "cover",
-          }}
-          loading="lazy"
-        />
+        <Logo />
       </Box>
       {/* ------------------------------------------- */}
       {/* Sidebar For Mobile */}

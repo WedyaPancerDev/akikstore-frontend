@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import CustomizerReducer from "./customizer/CustomizerSlice";
 import DashboardReducer from "./apps/DashboardSlice";
-import CartSlice from "./apps/CartSlice";
+import CartReducer from "./apps/CartSlice";
+import StepperReducer from "./apps/StepperSlice";
 
 import { combineReducers } from "redux";
 import {
@@ -15,14 +16,16 @@ export const store = configureStore({
   reducer: {
     customizer: CustomizerReducer,
     dashboard: DashboardReducer,
-    cart: CartSlice,
+    cart: CartReducer,
+    stepper: StepperReducer,
   },
 });
 
 const rootReducer = combineReducers({
   customizer: CustomizerReducer,
   dashboard: DashboardReducer,
-  cart: CartSlice,
+  cart: CartReducer,
+  stepper: StepperReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

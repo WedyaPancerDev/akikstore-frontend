@@ -8,6 +8,8 @@ export type LoginResponse = {
   role: Role;
   email: string;
   user_id: string;
+  avatar: string;
+  person: number
   exp: number;
 };
 
@@ -73,6 +75,19 @@ export const getUserProfile = async (): Promise<
   const result = await axios.get("/auth/me");
 
   return result.data as ApiResponse<GetProfileResponse>;
+};
+
+export type GetStatusTokenResponse = {
+  user_id: string;
+  exp: number;
+};
+
+export const getStatusToken = async (): Promise<
+  ApiResponse<GetStatusTokenResponse>
+> => {
+  const result = await axios.get("/auth/check-token");
+
+  return result.data as ApiResponse<GetStatusTokenResponse>;
 };
 
 export const authLogout = async (): Promise<ApiResponse<null>> => {

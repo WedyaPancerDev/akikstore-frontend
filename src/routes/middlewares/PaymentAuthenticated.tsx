@@ -6,9 +6,7 @@ import { useNavigate } from "react-router";
 import useCookie from "hooks/useCookie";
 import { setTokenBearer } from "utils/axios";
 import PageLoader from "components/PageLoader";
-import { setProfile } from "store/apps/DashboardSlice";
-import { useProfileUser } from "hooks/react-query/useAuth";
-import { AppState, useDispatch, useSelector } from "store/Store";
+import { useStatusToken } from "hooks/react-query/useAuth";
 import { ERROR_CODE_UNAUTHENTICATED } from "utils/http";
 import type { ValidateProps } from "types";
 
@@ -19,66 +17,47 @@ type AuthenticatedRouteProps = {
 const AuthenticatedRoute = ({
   children,
 }: AuthenticatedRouteProps): JSX.Element => {
+  const navigate = useNavigate();
   const {
     getCurrentCookie,
     removeFromCookie,
     getFromLocalStorage,
     removeFromLocalStorage,
   } = useCookie();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const {
-    data: profileUserData,
-    isLoading: isLoadingProfile,
-    error,
-  } = useProfileUser();
-  const { profile } = useSelector((state: AppState) => state.dashboard);
 
   const token = getCurrentCookie();
   const secureValue = getFromLocalStorage(
     "validate"
   ) as unknown as ValidateProps;
+  const { error } = useStatusToken(token || "");
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const handleUnauthenticated = () => {
+    setTokenBearer("");
     removeFromCookie("@key");
     removeFromLocalStorage("validate");
-    setTokenBearer("");
-    navigate("/masuk", { replace: true });
+    navigate("/", { replace: true });
     setIsAuthenticated(false);
+    toast.error("Hak akses ditolak, silahkan login kembali");
   };
 
   const handleSessionExpired = () => {
-    removeFromCookie("@key");
-    removeFromLocalStorage("validate");
     setTokenBearer("");
-    navigate("/masuk", { replace: true });
+    removeFromCookie("@key");
+    navigate("/", { replace: true });
+    removeFromLocalStorage("validate");
+    setIsAuthenticated(false);
     toast.error("Sesi Anda telah berakhir, silahkan login kembali");
   };
-
-  useEffect(() => {
-    if (secureValue?.status === "signin") {
-      const currentRole = secureValue.role;
-
-      if (["admin", "employee"].includes(currentRole)) {
-        navigate("/staff", { replace: true });
-      } else {
-        navigate("/pelanggan", { replace: true });
-      }
-    }
-  }, [secureValue?.status]);
 
   useEffect(() => {
     if (!token || !secureValue) {
       handleUnauthenticated();
     } else {
       setIsAuthenticated(true);
-
-      if (!profile && profileUserData?.data) {
-        dispatch(setProfile(profileUserData.data));
-      }
     }
-  }, [token, profile, profileUserData, dispatch, secureValue]);
+  }, [token, secureValue]);
 
   useEffect(() => {
     if (
@@ -89,7 +68,7 @@ const AuthenticatedRoute = ({
     }
   }, [error]);
 
-  if (!isAuthenticated || isLoadingProfile) {
+  if (!isAuthenticated) {
     return <PageLoader />;
   }
 

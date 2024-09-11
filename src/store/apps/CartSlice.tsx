@@ -8,6 +8,9 @@ export type PickProductState = Pick<
   "product_code" | "id" | "title" | "price_sell" | "stock" | "images"
 > & {
   max_stock?: number;
+  category?: string;
+  shipping_cost_id?: number;
+  shipping_cost_name?: string;
 };
 
 export type CartState = {

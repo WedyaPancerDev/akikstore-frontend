@@ -42,7 +42,9 @@ const useCookie = (): ReturnTypes => {
   };
 
   const removeFromCookie = (currentKey: string): void => {
-    destroyCookie(null, currentKey);
+    destroyCookie(null, currentKey, {
+      path: "/",
+    });
   };
 
   const saveToLocalStorage = (key: string, value: string): void => {

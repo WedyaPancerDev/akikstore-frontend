@@ -23,11 +23,13 @@ const SettingToko = loadable(() => import("pages/setting-toko"));
 
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
+const Transactions = loadable(() => import("pages/customers/transactions"));
 
 import Validate from "pages/validate";
 
 import PublicRoute from "./middlewares/PublicRoute";
 import AuthenticatedRoute from "./middlewares/AuthenticatedRoute";
+import PaymentAuthenticated from "./middlewares/PaymentAuthenticated";
 
 const routers = createBrowserRouter([
   {
@@ -76,8 +78,12 @@ const routers = createBrowserRouter([
         element: <UserLanding />,
       },
       {
-        path: "/produk/:category_name/:product_code",
-        element: <>DETAIL</>,
+        path: "/transaksi/pembayaran",
+        element: (
+          <PaymentAuthenticated>
+            <Transactions />
+          </PaymentAuthenticated>
+        ),
       },
     ],
     errorElement: <NotFound />,
