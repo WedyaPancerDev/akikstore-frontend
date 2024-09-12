@@ -86,7 +86,6 @@ const ColorlibStepIcon = (props: StepIconProps): JSX.Element => {
     1: 1,
     2: 2,
     3: 3,
-    4: 4,
   };
 
   return (
@@ -99,12 +98,7 @@ const ColorlibStepIcon = (props: StepIconProps): JSX.Element => {
   );
 };
 
-const steps = [
-  "Rincian Pesanan",
-  "Metode Pengiriman",
-  "Pembayaran",
-  "Transaksi Selesai",
-];
+const steps = ["Rincian Pesanan", "Metode Pengiriman", "Pembayaran"];
 
 interface IStepperComponentsProps {
   activeStep: number;

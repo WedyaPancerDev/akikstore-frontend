@@ -6,13 +6,11 @@ import { AppState, useSelector } from "store/Store";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
-import FinalStep from "./FinalStep";
 
 const moduleList: Record<number, JSX.Element> = {
   0: <FirstStep />,
   1: <SecondStep />,
   2: <ThirdStep />,
-  3: <FinalStep />,
 };
 
 const TransactionModule = (): JSX.Element => {

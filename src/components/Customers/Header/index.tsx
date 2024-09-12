@@ -79,7 +79,7 @@ const HeaderLandingCustomer = (): JSX.Element => {
 
     if (!token && !secureValue) {
       const redirectTo = encodeURIComponent("/transaksi/pembayaran");
-      toast.error('Kamu harus masuk terlebih dahulu');
+      toast.error("Kamu harus masuk terlebih dahulu");
 
       navigate(`/masuk?to=${redirectTo}`);
       return;
@@ -381,7 +381,10 @@ const HeaderLandingCustomer = (): JSX.Element => {
               onClick={handleClick}
             >
               <Avatar
-                src={"/assets/images/avatar/default-avatar.svg"}
+                src={
+                  secureValue?.avatar ||
+                  "/assets/images/avatar/default-avatar.svg"
+                }
                 alt={"ProfileImg"}
                 sx={{
                   width: 40,

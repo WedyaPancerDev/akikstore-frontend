@@ -24,6 +24,7 @@ const SettingToko = loadable(() => import("pages/setting-toko"));
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
 const Transactions = loadable(() => import("pages/customers/transactions"));
+const TransactionSuccess = loadable(() => import("pages/customers/transactions-success"));
 
 import Validate from "pages/validate";
 
@@ -82,6 +83,14 @@ const routers = createBrowserRouter([
         element: (
           <PaymentAuthenticated>
             <Transactions />
+          </PaymentAuthenticated>
+        ),
+      },
+      {
+        path: "/transaksi/berhasil/:transactionId",
+        element: (
+          <PaymentAuthenticated>
+            <TransactionSuccess />
           </PaymentAuthenticated>
         ),
       },

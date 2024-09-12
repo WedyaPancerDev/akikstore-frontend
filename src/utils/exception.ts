@@ -1,6 +1,5 @@
 import type { AxiosError } from "axios";
 import {
-  ERROR_CODE_SERVER,
   ERROR_CODE_BAD_GATEWAY,
   ERROR_CODE_UNAUTHORIZED,
   ERROR_CODE_SERVICE_UNAVAILABLE,
@@ -14,9 +13,9 @@ export const exceptionResponse = (error: AxiosError): void => {
     const codeStatus = error.response.status as number;
 
     switch (codeStatus) {
-      case ERROR_CODE_SERVER:
-        toast.error(`Oops, server lagi penuh nih, sabar yaa :${codeStatus}`);
-        break;
+      // case ERROR_CODE_SERVER:
+      //   toast.error(`Oops, server lagi penuh nih, sabar yaa :${codeStatus}`);
+      //   break;
       case ERROR_CODE_UNAUTHORIZED:
         toast.error(
           `Oops, kamu tidak memiliki akses untuk melakukan aksi ini :${codeStatus}`

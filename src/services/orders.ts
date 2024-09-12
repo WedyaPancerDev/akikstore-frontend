@@ -8,6 +8,7 @@ export type ProcessOrderResponse = {
   };
   schedules: {
     order_date: Date | string;
+    invoice_code: string;
   };
 };
 

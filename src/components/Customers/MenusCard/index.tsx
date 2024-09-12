@@ -13,6 +13,7 @@ import BlankCard from "components/BlankCard";
 import { type GetProductsResponse } from "services/products";
 import { formatPrice } from "utils/helpers";
 import { type PickProductState } from "store/apps/CartSlice";
+import toast from "react-hot-toast";
 
 type MenusCardProductProps = {
   data: GetProductsResponse;
@@ -39,7 +40,7 @@ const MenusCardProduct = ({
             fontSize: "12px",
           }}
         >
-          Stok <b>{data.stock}</b>
+          Stok <b>{data.stock === 0 ? "Habis" : data.stock}</b>
         </Typography>
 
         <Typography
@@ -81,22 +82,25 @@ const MenusCardProduct = ({
         <Fab
           size="medium"
           color="primary"
+          disabled={data.stock === 0}
           sx={{
             bottom: "75px",
             right: "15px",
             position: "absolute",
           }}
           onClick={() => {
-            handleSelectedProduct({
-              stock: 1,
-              id: data?.id,
-              images: data?.images,
-              price_sell: data?.price_sell,
-              product_code: data?.product_code,
-              max_stock: data?.stock,
-              title: data?.title,
-              category: data?.category_name,
-            });
+            data.stock > 0
+              ? handleSelectedProduct({
+                  stock: 1,
+                  id: data?.id,
+                  images: data?.images,
+                  price_sell: data?.price_sell,
+                  product_code: data?.product_code,
+                  max_stock: data?.stock,
+                  title: data?.title,
+                  category: data?.category_name,
+                })
+              : toast.error("Stok Habis");
           }}
         >
           <IconBasket size="26" />

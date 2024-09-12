@@ -15,8 +15,8 @@ import { getCustomStyle } from "utils/react-select";
 import { GetShippingCostResponse } from "services/shippingCost";
 import { IconBike, IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import CustomSelect from "components/CustomSelect";
-import useCart from "hooks/useCart";
-import { useState } from "react";
+import useCart, { NewPayload } from "hooks/useCart";
+import { useEffect, useState } from "react";
 import CustomTextField from "components/OutlineInput";
 import { ReactSelectValueProps } from "types";
 import CustomFormLabel from "components/FormLabel";
@@ -24,6 +24,7 @@ import BannerTag from "components/BannerTag";
 import { useGetCouponFirst } from "hooks/react-query/useCoupon";
 import toast from "react-hot-toast";
 import { GetCouponResponse, validateCoupon } from "services/coupon";
+import useCookie from "hooks/useCookie";
 
 type FormatSaveCoupon = {
   coupon: string;
@@ -75,6 +76,11 @@ const SecondStep = (): JSX.Element => {
   const { data: shippingCostData, isLoading: isLoadingShippingCost } =
     useShippingCost();
   const { data: couponData, isLoading: isLoadingCoupon } = useGetCouponFirst();
+  const { getFromLocalStorage } = useCookie();
+
+  const secureValue = getFromLocalStorage(
+    "transactions"
+  ) as unknown as NewPayload;
 
   const couponItem = couponData?.data;
 
@@ -138,6 +144,19 @@ const SecondStep = (): JSX.Element => {
       toast.error("Kode kupon yang kamu masukkan tidak valid");
     }
   };
+
+  useEffect(() => {
+    if (secureValue) {
+      setValue("shippingCost", secureValue.shippingCost as any);
+      setValue(
+        "transactionType",
+        transactionTypeList?.find(
+          (item) => item.value === secureValue.transaction_type
+        ) as any
+      );
+      setValue("coupon", secureValue.coupon?.code ?? "");
+    }
+  }, []);
 
   return (
     <Box component="section" sx={{ marginTop: "20px" }}>

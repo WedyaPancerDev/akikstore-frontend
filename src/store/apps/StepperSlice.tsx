@@ -1,38 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 interface StateType {
-  stepperActive: number
+  stepperActive: number;
 }
 
 const initialState: StateType = {
-  stepperActive: 0
-}
+  stepperActive: 0,
+};
 
 export const StepperSlice = createSlice({
-  name: 'customizer',
+  name: "customizer",
   initialState,
   reducers: {
     setActiveStep: (state: StateType, action) => {
       return {
         ...state,
-        stepperActive: action.payload
-      }
+        stepperActive: action.payload,
+      };
     },
     setNextStep: (state: StateType) => {
       return {
         ...state,
-        stepperActive: state.stepperActive + 1
-      }
+        stepperActive: state.stepperActive + 1,
+      };
     },
     setPrevStep: (state: StateType) => {
       return {
         ...state,
-        stepperActive: state.stepperActive - 1
-      }
-    }
-  }
-})
+        stepperActive: state.stepperActive - 1,
+      };
+    },
+    setResetStep: (state: StateType) => {
+      return {
+        ...state,
+        stepperActive: 0,
+      };
+    },
+  },
+});
 
-export const { setActiveStep, setNextStep, setPrevStep } = StepperSlice.actions
+export const { setActiveStep, setNextStep, setPrevStep, setResetStep } =
+  StepperSlice.actions;
 
-export default StepperSlice.reducer
+export default StepperSlice.reducer;

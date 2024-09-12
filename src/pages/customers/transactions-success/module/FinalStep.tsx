@@ -1,24 +1,28 @@
-import { Fragment } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
+import { decryptText } from "utils/helpers";
 
 const FinalStep = () => {
+  const { transactionId = "" } = useParams();
   const navigate = useNavigate();
 
+  const decryptTransactionId = decryptText(transactionId);
+
   return (
-    <Fragment>
-      <Box
-        p={3}
-        my={3}
-        textAlign="center"
-        sx={{ minHeight: "65vh", height: "100%", maxHeight: "65vh" }}
-      >
-        <Typography variant="h5">Terima kasih sudah berbelanja 🎉</Typography>
-        <Typography variant="h6" mt={1} mb={4} color="primary">
-          Nomor Invoice kamu: 3fa7-69e1-79b4-dbe0d35f5f5d
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ minHeight: "65vh", height: "100%", maxHeight: "65vh" }}
+    >
+      <Box p={3} my={3} textAlign="center">
+        <Typography variant="h3">Terima kasih sudah berbelanja 🎉</Typography>
+        <Typography variant="h5" mt={1} mb={4} color="primary">
+          Nomor Invoice kamu: {decryptTransactionId ?? ""}
         </Typography>
 
-        <Typography variant="body1" maxWidth="40%" marginInline="auto">
+        <Typography variant="body1" maxWidth="60%" marginInline="auto">
           Kamu bisa melihat status pesanan kamu di halaman{" "}
           <b style={{ textDecoration: "underline" }}>Riwayat Transaksi</b> di
           dashboard kamu.
@@ -41,7 +45,7 @@ const FinalStep = () => {
           Lanjut Ke Dashboard Saya
         </Button>
       </Box>
-    </Fragment>
+    </Box>
   );
 };
 

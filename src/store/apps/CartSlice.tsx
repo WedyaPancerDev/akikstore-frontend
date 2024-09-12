@@ -18,6 +18,10 @@ export type CartState = {
     customer_id: string | null;
     products: PickProductState[];
   };
+  resultTransaction: {
+    invoice_number: string | null;
+    order_date: string | null;
+  };
 };
 
 const getInitialCartState = (): CartState["cartProduct"] => {
@@ -33,12 +37,30 @@ const getInitialCartState = (): CartState["cartProduct"] => {
   };
 };
 
+const getInitialResultTransaction = (): CartState["resultTransaction"] => {
+  const savedCart = secureLocalStorage.getItem("invoice");
+
+  if (savedCart) {
+    return JSON.parse(savedCart as string);
+  }
+
+  return {
+    invoice_number: null,
+    order_date: null,
+  };
+};
+
 const localStorageData = getInitialCartState();
+const resultInititalData = getInitialResultTransaction();
 
 const initialState: CartState = {
   cartProduct: {
     customer_id: localStorageData.customer_id,
     products: localStorageData.products,
+  },
+  resultTransaction: {
+    invoice_number: resultInititalData.invoice_number,
+    order_date: resultInititalData.order_date,
   },
 };
 
@@ -52,9 +74,15 @@ const cartSlice = createSlice({
         cartProduct: action.payload,
       };
     },
+    setTransactionResult: (state: CartState, action) => {
+      return {
+        ...state,
+        resultTransaction: action.payload,
+      };
+    },
   },
 });
 
-export const { setCartProduct } = cartSlice.actions;
+export const { setCartProduct, setTransactionResult } = cartSlice.actions;
 
 export default cartSlice.reducer;
