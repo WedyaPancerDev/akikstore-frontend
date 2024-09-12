@@ -25,6 +25,7 @@ const useProfileUser = (): UseQueryResult<
     queryFn: async () => (token ? await getUserProfile() : null),
     staleTime: staleOneDay,
     enabled: !!token,
+    retry: false,
   });
 };
 

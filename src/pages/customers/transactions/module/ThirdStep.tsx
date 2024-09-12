@@ -9,7 +9,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Theme,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
 import { AxiosError } from "axios";
@@ -39,6 +41,8 @@ type CalculateAllTransactionProps = {
 };
 
 const ThirdStep = (): JSX.Element => {
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartProduct } = useSelector((state: AppState) => state.cart);
@@ -182,13 +186,13 @@ const ThirdStep = (): JSX.Element => {
 
   return (
     <>
-      <Box component="section" sx={{ marginTop: "20px" }}>
+      <Box component="section">
         <Box
           sx={{
-            minHeight: "65vh",
+            minHeight: mdUp ? "65vh" : "80vh",
             height: "100%",
             position: "relative",
-            maxHeight: "65vh",
+            maxHeight: mdUp ? "65vh" : "80vh",
           }}
         >
           <TableContainer
@@ -351,7 +355,7 @@ const ThirdStep = (): JSX.Element => {
           </Box>
         </Box>
 
-        <Box sx={{ margin: "0 auto", width: "50%" }}>
+        <Box sx={{ margin: "0 auto", width: mdUp ? "50%" : "100%" }}>
           <Button
             fullWidth
             size="large"

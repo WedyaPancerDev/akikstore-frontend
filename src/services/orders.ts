@@ -32,3 +32,33 @@ export const processOrder = async (
 
   return result.data as ApiResponse<ProcessOrderResponse>;
 };
+
+export type TransactionHistoryCustomerResponse = {
+  order_number: string;
+  status: "pending" | "processing" | "completed" | "cancelled";
+  total_price: number;
+  customer_name: string;
+  coupon: string;
+  payment_method: string;
+  bank_name: string;
+  transaction_type: string;
+  order_date: Date | string;
+  due_date: Date | string | null;
+  customer_phone: string | null;
+  order_details: Array<{
+    product_name: string;
+    shipping_name: string;
+    shipping_cost: number;
+    quantity: number;
+    price: number;
+    total: number;
+  }>;
+};
+
+export const transactionDetailCustomer = async (
+  customerId: number
+): Promise<ApiResponse<TransactionHistoryCustomerResponse[]>> => {
+  const result = await axios.get(`/order/transaction/${customerId}`);
+
+  return result.data as ApiResponse<TransactionHistoryCustomerResponse[]>;
+};

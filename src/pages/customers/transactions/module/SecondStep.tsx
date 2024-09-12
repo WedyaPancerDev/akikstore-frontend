@@ -6,7 +6,7 @@ import Select, {
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Theme, Typography, useMediaQuery } from "@mui/material";
 import { useShippingCost } from "hooks/react-query/useShippingCost";
 
 import { setNextStep, setPrevStep } from "store/apps/StepperSlice";
@@ -65,6 +65,7 @@ const transactionTypeList = [
 ];
 
 const SecondStep = (): JSX.Element => {
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   const dispatch = useDispatch();
 
   const { savePayload } = useCart();
@@ -159,16 +160,16 @@ const SecondStep = (): JSX.Element => {
   }, []);
 
   return (
-    <Box component="section" sx={{ marginTop: "20px" }}>
+    <Box component="section">
       <Box
         display="flex"
-        maxWidth="60%"
+        maxWidth={mdUp ? "60%" : "100%"}
         paddingTop="20px"
         marginInline="auto"
         flexDirection="column"
         sx={{ minHeight: "65vh", height: "100%", maxHeight: "65vh" }}
       >
-        {!isLoadingCoupon && <BannerTag data={couponItem} />}
+        {!isLoadingCoupon && <BannerTag data={couponItem} type="landing" />}
 
         <Box>
           <Controller
@@ -314,7 +315,7 @@ const SecondStep = (): JSX.Element => {
         </Box>
       </Box>
 
-      <Box sx={{ margin: "0 auto", width: "50%" }}>
+      <Box sx={{ margin: "0 auto", width: mdUp ? "50%" : "100%" }}>
         <Button
           fullWidth
           size="large"

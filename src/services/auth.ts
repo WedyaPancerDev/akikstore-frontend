@@ -51,6 +51,7 @@ export type GetProfileResponse = {
   account_status: "active" | "inactive";
   role: Role;
   employees: {
+    id: number;
     fullname: string;
     address: string;
     phone: string;
@@ -58,6 +59,7 @@ export type GetProfileResponse = {
     avatar: string;
   };
   customers: {
+    id: number;
     fullname: string;
     address: string;
     phone: string;

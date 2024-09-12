@@ -1,5 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { IconTicket } from "@tabler/icons-react";
+import {
+  IconCashRegister,
+  IconLayoutDashboard,
+  IconTicket,
+} from "@tabler/icons-react";
 
 import ShinySingle from "components/Svg/ShinySingle";
 import moment from "moment";
@@ -7,12 +11,29 @@ import { type CSSProperties } from "react";
 import { GetCouponResponse } from "services/coupon";
 import { formatPrice } from "utils/helpers";
 
-type BannerTagProps = {
-  data?: GetCouponResponse;
-  sx?: CSSProperties;
+type DashboardProps = {
+  title: string;
+  description: string;
 };
 
-const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
+type BannerTagProps = {
+  dataDashboard?: DashboardProps;
+  data?: GetCouponResponse;
+  sx?: CSSProperties;
+  type: "dashboard" | "landing";
+};
+
+const iconBanner: Record<string, JSX.Element> = {
+  Dashboard: <IconLayoutDashboard />,
+  "Riwayat Transaksi": <IconCashRegister />,
+};
+
+const BannerTag = ({
+  dataDashboard,
+  data,
+  type = "landing",
+  sx,
+}: BannerTagProps): JSX.Element => {
   const formatDueDate = data?.expired_at
     ? moment(data?.expired_at).format("DD MMMM YYYY")
     : null;
@@ -26,9 +47,10 @@ const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
         position: "relative",
         overflow: "hidden",
         boxShadow: "0 10px 20px 0 rgba(0,0,0,.15)",
+        ...sx,
       }}
     >
-      <ShinySingle style={{ position: "absolute", left: 0, zIndex: 0 }} />
+      <ShinySingle style={{ position: "absolute", left: 0, top: 0, zIndex: 0 }} />
       <Box
         sx={{
           padding: "16px",
@@ -38,7 +60,11 @@ const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
           zIndex: 5,
         }}
       >
-        <IconTicket />
+        {type === "landing" ? (
+          <IconTicket />
+        ) : (
+          iconBanner[dataDashboard?.title ?? ''] || null
+        )}
 
         <Box
           sx={{
@@ -60,7 +86,9 @@ const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
                 letterSpacing: "-0.035em",
               }}
             >
-              {data?.code ?? "Tidak ada kupon 😭"}
+              {type === "landing"
+                ? data?.code ?? "Tidak ada kupon 😭"
+                : dataDashboard?.title ?? "-"}
             </Typography>
 
             {data?.type && (
@@ -86,7 +114,9 @@ const BannerTag = ({ data }: BannerTagProps): JSX.Element => {
               marginTop: "4px",
             }}
           >
-            Berlaku hingga {formatDueDate ?? "-"}
+            {type === "landing"
+              ? `Berlaku hingga ${formatDueDate ?? "-"}`
+              : dataDashboard?.description ?? "-"}
           </Typography>
         </Box>
       </Box>

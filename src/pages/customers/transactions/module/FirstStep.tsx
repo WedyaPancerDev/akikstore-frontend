@@ -11,6 +11,8 @@ import {
   IconButton,
   Stack,
   Avatar,
+  Theme,
+  useMediaQuery,
 } from "@mui/material";
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
@@ -24,6 +26,8 @@ import menus from "theme/slider.module.css";
 import { setNextStep } from "store/apps/StepperSlice";
 
 const FirstStep = (): JSX.Element => {
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+
   const navigate = useNavigate();
   const { handleDeleteItem } = useCart();
 
@@ -42,8 +46,14 @@ const FirstStep = (): JSX.Element => {
   }, [cartProduct]);
 
   return (
-    <Box component="section" sx={{ marginTop: "20px" }}>
-      <Box sx={{ minHeight: "65vh", height: "100%", maxHeight: "65vh" }}>
+    <Box component="section">
+      <Box
+        sx={{
+          minHeight: mdUp ? "65vh" : "80vh",
+          height: "100%",
+          maxHeight: mdUp ? "65vh" : "80vh",
+        }}
+      >
         <TableContainer
           className={menus.Slider}
           sx={{
@@ -183,7 +193,7 @@ const FirstStep = (): JSX.Element => {
         </Box>
       </Box>
 
-      <Box sx={{ margin: "0 auto", width: "50%" }}>
+      <Box sx={{ margin: "0 auto", width: mdUp ? "50%" : "100%" }}>
         <Button
           fullWidth
           size="large"

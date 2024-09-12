@@ -22,8 +22,8 @@ const TransactionModule = (): JSX.Element => {
       component="div"
       position="relative"
       sx={{
-        minHeight: "75vh",
-        padding: "10px 16px",
+        minHeight: mdUp ? "75vh" : "100vh",
+        padding: `10px ${mdUp ? "16px" : "0px"}`,
         marginX: mdUp ? 0 : "1rem",
       }}
     >

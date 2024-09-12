@@ -24,7 +24,14 @@ const SettingToko = loadable(() => import("pages/setting-toko"));
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
 const Transactions = loadable(() => import("pages/customers/transactions"));
-const TransactionSuccess = loadable(() => import("pages/customers/transactions-success"));
+const TransactionSuccess = loadable(
+  () => import("pages/customers/transactions-success")
+);
+
+const CustomerDashboard = loadable(() => import("pages/customers/dashboard"));
+const TransactionDetailDashboard = loadable(
+  () => import("pages/customers/transactions-detail")
+);
 
 import Validate from "pages/validate";
 
@@ -65,8 +72,8 @@ const routers = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Navigate to="/pelanggan/dashboard" replace /> },
-      { path: "dashboard", element: <>PELANGGAN</> },
-      { path: "transaksi", element: <>TRANSAKSI PELANGGAN</> },
+      { path: "dashboard", element: <CustomerDashboard /> },
+      { path: "transaksi", element: <TransactionDetailDashboard /> },
     ],
     errorElement: <NotFound />,
   },
