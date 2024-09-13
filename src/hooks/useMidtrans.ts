@@ -56,15 +56,12 @@ const useMidtrans = (isOpen: boolean) => {
     snap.embed(snapToken, {
       embedId,
       onSuccess: function (result: unknown) {
-        console.log({ result }, " : => onSuccess");
         action.onSuccess(result);
       },
       onPending: function (result: unknown) {
-        console.log({ result }, " : => onPending");
         action.onPending(result);
       },
       onClose: function (result: unknown) {
-        console.error({ result }, " : => onClose");
         action.onClose(result);
       },
     });

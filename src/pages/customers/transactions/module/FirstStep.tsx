@@ -49,9 +49,7 @@ const FirstStep = (): JSX.Element => {
     <Box component="section">
       <Box
         sx={{
-          minHeight: mdUp ? "65vh" : "80vh",
           height: "100%",
-          maxHeight: mdUp ? "65vh" : "80vh",
         }}
       >
         <TableContainer
@@ -193,7 +191,13 @@ const FirstStep = (): JSX.Element => {
         </Box>
       </Box>
 
-      <Box sx={{ margin: "0 auto", width: mdUp ? "50%" : "100%" }}>
+      <Box
+        sx={{
+          margin: "0 auto",
+          marginTop: "40px",
+          width: mdUp ? "50%" : "100%",
+        }}
+      >
         <Button
           fullWidth
           size="large"

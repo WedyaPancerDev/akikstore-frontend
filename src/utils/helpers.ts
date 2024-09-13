@@ -21,6 +21,15 @@ export const formatPrice = (amount: number): string => {
   return result;
 };
 
+export const formatDate = (date: Date | string): string => {
+  return new Date(date).toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
 const k = "d17e5fb4-352f-4263-a4c7-e271efd3b998";
 
 export const encryptText = (text: string): string => {

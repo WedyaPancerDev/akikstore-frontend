@@ -62,3 +62,17 @@ export const transactionDetailCustomer = async (
 
   return result.data as ApiResponse<TransactionHistoryCustomerResponse[]>;
 };
+
+export type TransactionHistoryCustomerCountResponse = {
+  unpaid: number;
+  paid: number;
+  canceled: number;
+};
+
+export const transactionHistoryCustomerCount = async (
+  customerId: number
+): Promise<ApiResponse<TransactionHistoryCustomerCountResponse>> => {
+  const result = await axios.get(`/order/history-transaction/${customerId}`);
+
+  return result.data as ApiResponse<TransactionHistoryCustomerCountResponse>;
+};

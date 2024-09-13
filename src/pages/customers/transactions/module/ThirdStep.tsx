@@ -146,16 +146,13 @@ const ThirdStep = (): JSX.Element => {
             snapToken: midtransCode?.snap_token as string,
             embedId: "snap-midtrans",
             action: {
-              onSuccess: function (result) {
-                console.log({ result });
+              onSuccess: function () {
                 handleRedirect(`/transaksi/berhasil/${encryptedCode}`);
               },
-              onPending: function (result) {
-                console.log({ result });
+              onPending: function () {
                 handleRedirect(`/transaksi/berhasil/${encryptedCode}`);
               },
-              onClose: function (result) {
-                console.log({ result });
+              onClose: function () {
                 handleRedirect(`/transaksi/berhasil/${encryptedCode}`);
               },
             },
@@ -189,10 +186,8 @@ const ThirdStep = (): JSX.Element => {
       <Box component="section">
         <Box
           sx={{
-            minHeight: mdUp ? "65vh" : "80vh",
             height: "100%",
             position: "relative",
-            maxHeight: mdUp ? "65vh" : "80vh",
           }}
         >
           <TableContainer
@@ -355,7 +350,13 @@ const ThirdStep = (): JSX.Element => {
           </Box>
         </Box>
 
-        <Box sx={{ margin: "0 auto", width: mdUp ? "50%" : "100%" }}>
+        <Box
+          sx={{
+            margin: "0 auto",
+            marginTop: "40px",
+            width: mdUp ? "50%" : "100%",
+          }}
+        >
           <Button
             fullWidth
             size="large"

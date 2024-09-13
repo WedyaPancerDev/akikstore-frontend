@@ -115,14 +115,9 @@ const AuthRegister = (): JSX.Element => {
     try {
       setIsSubmitting(true);
 
-      console.log({ payload });
       const result = await authRegister(payload);
 
       if (result?.success) {
-        const data = result?.data;
-
-        console.log({ data });
-
         clearForm();
         toast.success("Yey! Akun berhasil dibuat. Silahkan masuk sekarang");
         navigate("/masuk", { replace: true });
