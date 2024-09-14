@@ -76,3 +76,17 @@ export const transactionHistoryCustomerCount = async (
 
   return result.data as ApiResponse<TransactionHistoryCustomerCountResponse>;
 };
+
+export type UploadTransactionProofingPayload = {
+  order_id: string;
+  customer_id: number;
+  image_proofing: string;
+};
+
+export const uploadTransactionProofing = async (
+  payload: UploadTransactionProofingPayload
+): Promise<ApiResponse<null>> => {
+  const result = await axios.post("/file/uploads/proofing", payload);
+
+  return result.data;
+};

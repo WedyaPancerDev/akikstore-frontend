@@ -21,6 +21,7 @@ const useHistoryTransactionCustomer = (
     staleTime: staleOneDay,
     enabled: !!customerId,
     retry: false,
+    
   });
 };
 

@@ -24,3 +24,11 @@ export const validateCoupon = async (
 
   return result.data as ApiResponse<null>;
 };
+
+export const getAllCoupon = async (): Promise<
+  ApiResponse<GetCouponResponse[]>
+> => {
+  const result = await axios.get("/coupon/all");
+
+  return result.data as ApiResponse<GetCouponResponse[]>;
+};

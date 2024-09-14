@@ -20,6 +20,7 @@ const Income = loadable(() => import("pages/income"));
 const Produk = loadable(() => import("pages/produk"));
 const Transaksi = loadable(() => import("pages/transaksi"));
 const SettingToko = loadable(() => import("pages/setting-toko"));
+const Kupon = loadable(() => import("pages/kupon"));
 
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
@@ -59,7 +60,8 @@ const routers = createBrowserRouter([
       { path: "list-produk", element: <Produk /> },
       { path: "pemasukan-dan-pengeluaran", element: <Income /> },
       { path: "setting-toko", element: <SettingToko /> },
-      { path: "manajemen-pengguna", element: <Staff /> },
+      { path: "kupon", element: <Kupon /> },
+      { path: "manajemen-staff", element: <Staff /> },
     ],
     errorElement: <NotFound />,
   },

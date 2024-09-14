@@ -324,7 +324,7 @@ const AuthRegister = (): JSX.Element => {
                       fontWeight={600}
                       color="gray"
                     >
-                      Kata sandi minimal 8 karakter
+                      Kata sandi minimal 8 karakter (Gunakan kombinasi huruf, angka, dan simbol)
                     </Typography>
                   )}
                 </Box>

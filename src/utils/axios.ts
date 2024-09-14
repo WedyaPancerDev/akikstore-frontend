@@ -28,10 +28,13 @@ const getCurrentCookie = (): string | null => {
   return currentToken[key] || null;
 };
 
+export const RAW_API =
+  env === "dev" ? VITE_APP_BASE_URL_DEV : VITE_APP_BASE_URL_PROD;
+
 const currentToken = getCurrentCookie();
 
 const api = axios.create({
-  baseURL: env === "dev" ? VITE_APP_BASE_URL_DEV : VITE_APP_BASE_URL_PROD,
+  baseURL: RAW_API,
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",

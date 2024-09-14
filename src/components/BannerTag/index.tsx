@@ -1,8 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import {
+  IconBuildingStore,
   IconCashRegister,
+  IconGiftCard,
   IconLayoutDashboard,
+  IconNotes,
+  IconShoppingCart,
   IconTicket,
+  IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
 
 import ShinySingle from "components/Svg/ShinySingle";
@@ -24,8 +30,15 @@ type BannerTagProps = {
 };
 
 const iconBanner: Record<string, JSX.Element> = {
-  Dashboard: <IconLayoutDashboard />,
-  "Riwayat Transaksi": <IconCashRegister />,
+  Dashboard: <IconLayoutDashboard style={{ flexShrink: 0 }} />,
+  "Pelanggan Terdaftar": <IconUsers style={{ flexShrink: 0 }} />,
+  "Riwayat Transaksi": <IconCashRegister style={{ flexShrink: 0 }} />,
+  Transaksi: <IconCashRegister style={{ flexShrink: 0 }} />,
+  "List Produk & Kategori": <IconShoppingCart style={{ flexShrink: 0 }} />,
+  "Pemasukan & Pengeluaran": <IconNotes style={{ flexShrink: 0 }} />,
+  "Setting Toko": <IconBuildingStore style={{ flexShrink: 0 }} />,
+  Kupon: <IconGiftCard style={{ flexShrink: 0 }} />,
+  "Manajemen Staff": <IconUser style={{ flexShrink: 0 }} />,
 };
 
 const BannerTag = ({
@@ -50,7 +63,9 @@ const BannerTag = ({
         ...sx,
       }}
     >
-      <ShinySingle style={{ position: "absolute", left: 0, top: 0, zIndex: 0 }} />
+      <ShinySingle
+        style={{ position: "absolute", left: 0, top: 0, zIndex: 0 }}
+      />
       <Box
         sx={{
           padding: "16px",
@@ -63,7 +78,7 @@ const BannerTag = ({
         {type === "landing" ? (
           <IconTicket />
         ) : (
-          iconBanner[dataDashboard?.title ?? ''] || null
+          iconBanner[dataDashboard?.title ?? ""] || null
         )}
 
         <Box

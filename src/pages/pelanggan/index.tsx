@@ -5,8 +5,15 @@ import PageContainer from "components/Container/PageContainer";
 const Pelanggan = (): JSX.Element => {
   return (
     <PageContainer title="Pelanggan - AKIKSTORE" description="#">
-      <BannerTag type="pelanggan" />
-      <Box></Box>
+      <BannerTag
+        type="dashboard"
+        dataDashboard={{
+          title: "Pelanggan Terdaftar",
+          description:
+            "Di sini Anda dapat melihat, menambah, mengedit pelanggan.",
+        }}
+      />
+      <Box marginTop="20px"></Box>
     </PageContainer>
   );
 };

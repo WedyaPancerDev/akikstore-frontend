@@ -38,7 +38,7 @@ const DashboardCustomerModule = (): JSX.Element => {
           type="unpaid"
           title="Transaksi Dibatalkan"
           isLoading={isLoading}
-          value={transactionHistoryCountData?.data.unpaid || 0}
+          value={transactionHistoryCountData?.data.canceled || 0}
         />
 
         <SlimCard
@@ -52,7 +52,7 @@ const DashboardCustomerModule = (): JSX.Element => {
           type="progress"
           title="Total Transaksi Belum Dibayar"
           isLoading={isLoading}
-          value={transactionHistoryCountData?.data.canceled || 0}
+          value={transactionHistoryCountData?.data.unpaid || 0}
         />
       </Box>
     </Box>

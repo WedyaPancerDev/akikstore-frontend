@@ -7,6 +7,7 @@ import {
   IconUser,
   IconUsers,
   IconCashRegister,
+  IconGiftCard,
 } from "@tabler/icons-react";
 
 interface MenuitemsType {
@@ -38,13 +39,6 @@ export const AdminMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
-    title: "Pelanggan Terdaftar",
-    icon: IconUsers,
-    href: "/staff/pelanggan-terdaftar",
-    chipColor: "secondary",
-  },
-  {
-    id: uniqueId(10),
     title: "Transaksi",
     icon: IconCashRegister,
     href: "/staff/transaksi",
@@ -66,6 +60,13 @@ export const AdminMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
+    title: "Kupon",
+    icon: IconGiftCard,
+    href: "/staff/kupon",
+    chipColor: "secondary",
+  },
+  {
+    id: uniqueId(10),
     title: "Setting Toko",
     icon: IconBuildingStore,
     href: "/staff/setting-toko",
@@ -77,9 +78,16 @@ export const AdminMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
-    title: "Manajemen Pengguna",
+    title: "Manajemen Staff",
     icon: IconUser,
-    href: "/staff/manajemen-pengguna",
+    href: "/staff/manajemen-staff",
+    chipColor: "secondary",
+  },
+  {
+    id: uniqueId(10),
+    title: "Pelanggan Terdaftar",
+    icon: IconUsers,
+    href: "/staff/pelanggan-terdaftar",
     chipColor: "secondary",
   },
 ];

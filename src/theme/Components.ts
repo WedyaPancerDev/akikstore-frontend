@@ -1,4 +1,5 @@
 // project imports
+import { fontWeight } from "@mui/system";
 import "./DefaultColors";
 import { type Theme } from "@mui/material/styles";
 
@@ -20,6 +21,9 @@ const components: any = (theme: Theme) => {
           height: "100%",
           margin: 0,
           padding: 0,
+        },
+        "#filepond--drop-label-0svdkh4fr": {
+          fontWeight: "600 !important",
         },
         "#root": {
           height: "100%",
