@@ -60,3 +60,9 @@ export const createCoupon = async (
 
   return result.data as ApiResponse<null>;
 };
+
+export const disableCoupon = async (id: number): Promise<ApiResponse<null>> => {
+  const result = await axios.delete(`/coupon/disable/${id}`);
+
+  return result.data as ApiResponse<null>;
+};

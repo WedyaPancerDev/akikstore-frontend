@@ -141,7 +141,6 @@ const SecondStep = (): JSX.Element => {
     } catch (error) {
       console.error({ error });
       setIsProcessCoupon(false);
-      setValue("coupon", "Kode kupon yang kamu masukkan tidak valid");
       toast.error("Kode kupon yang kamu masukkan tidak valid");
     }
   };

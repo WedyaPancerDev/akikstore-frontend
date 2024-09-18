@@ -10,9 +10,11 @@ import { Box, Button, Chip, Theme, useMediaQuery } from "@mui/material";
 import { useAllGetCoupon } from "hooks/react-query/useCoupon";
 
 import PageLoader from "components/PageLoader";
-import { type GetCouponResponse } from "services/coupon";
+import { disableCoupon, type GetCouponResponse } from "services/coupon";
 import { formatDate, formatPrice } from "utils/helpers";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const TableContainer = loadable(() => import("components/TableContainer"), {
   fallback: <p>...</p>,
@@ -20,9 +22,39 @@ const TableContainer = loadable(() => import("components/TableContainer"), {
 
 const KuponModule = (): JSX.Element => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   const { data: kuponData, isLoading } = useAllGetCoupon();
+
+  const handleDisableCoupon = async (id: number): Promise<void> => {
+    try {
+      queryClient.setQueryData(
+        ["coupon-all"],
+        (oldData: { data: GetCouponResponse[] }) => {
+          return {
+            ...oldData,
+            data: oldData?.data?.filter(
+              (coupon: GetCouponResponse) => coupon.id !== id
+            ),
+          };
+        }
+      );
+
+      const result = await disableCoupon(id);
+
+      if (result.success) {
+        toast.success("Kupon berhasil dinonaktifkan.");
+        queryClient.invalidateQueries({ queryKey: ["coupon-all"] });
+      } else {
+        toast.error("Menonaktifkan kupon gagal. Coba beberapa saat lagi");
+        queryClient.refetchQueries({ queryKey: ["coupon-all"] });
+      }
+    } catch (error) {
+      console.error({ error });
+      toast.error("Oops, Terjadi kesalahan. Coba beberapa saat lagi");
+    }
+  };
 
   const columns: ColDef[] | ColGroupDef[] = useMemo(() => {
     return [
@@ -36,20 +68,17 @@ const KuponModule = (): JSX.Element => {
       {
         headerName: "Kupon",
         field: "code",
-        width: 180,
         filter: "agTextColumnFilter",
         floatingFilter: true,
       },
       {
         headerName: "Tanggal Kadaluarsa",
         field: "expired_at",
-        width: 180,
         filter: true,
       },
       {
         headerName: "Diskon",
         field: "discount",
-        width: 180,
         filter: true,
         cellRenderer: ({ data }: { data: GetCouponResponse }) => {
           return (
@@ -64,7 +93,6 @@ const KuponModule = (): JSX.Element => {
       {
         headerName: "Tipe Diskon",
         field: "type",
-        width: 180,
         filter: true,
         cellRenderer: ({ data }: { data: GetCouponResponse }) => {
           return <>{data.type?.toUpperCase()}</>;
@@ -102,26 +130,16 @@ const KuponModule = (): JSX.Element => {
       {
         headerName: "Aksi",
         field: "action",
-        width: 190,
-        cellRenderer: () => {
+        cellRenderer: ({ data }: { data: GetCouponResponse }) => {
           return (
             <Box display="flex" gap="0.5rem" marginTop="4px">
-              <Button
-                type="button"
-                variant="contained"
-                color="warning"
-                size="small"
-                sx={{ fontWeight: 500 }}
-              >
-                <span>Edit</span>
-              </Button>
-
               <Button
                 type="button"
                 variant="contained"
                 color="error"
                 size="small"
                 sx={{ fontWeight: 500 }}
+                onClick={() => handleDisableCoupon(data.id)}
               >
                 <span>Nonaktifkan</span>
               </Button>
@@ -140,6 +158,7 @@ const KuponModule = (): JSX.Element => {
         discount: kupon.discount,
         type: kupon.type,
         status: kupon.status,
+        id: kupon.id,
       }));
     }
 
