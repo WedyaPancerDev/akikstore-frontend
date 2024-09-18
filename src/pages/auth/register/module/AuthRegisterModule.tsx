@@ -419,6 +419,7 @@ const AuthRegister = (): JSX.Element => {
                       maxLength: 15,
                     }}
                     id="phone"
+                    inputMode="numeric"
                     placeholder="contoh: 089777344332"
                     disabled={isSubmitting}
                     type="text"

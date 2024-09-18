@@ -11,7 +11,7 @@ const Category = (): JSX.Element => {
         dataDashboard={{
           title: "List Kategori",
           description:
-            "Di sini Anda dapat melihat, menambah, mengedit, dan menghapus data kategori.",
+            "Di sini Anda dapat melihat, menambah, mengedit data kategori.",
         }}
       />
 

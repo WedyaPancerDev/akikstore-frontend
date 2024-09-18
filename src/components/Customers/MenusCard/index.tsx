@@ -66,7 +66,7 @@ const MenusCardProduct = ({
             width="100%"
             loading="lazy"
             className="hoverImage"
-            style={{ minHeight: "18.5rem" }}
+            style={{ minHeight: "18.5rem", objectFit: "cover" }}
           />
         ) : (
           <Box

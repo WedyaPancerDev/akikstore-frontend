@@ -208,6 +208,7 @@ const CategoryModule = (): JSX.Element => {
           }}
           variant="contained"
           color="primary"
+          sx={{ fontWeight: 600 }}
         >
           Tambah Kategori
         </Button>

@@ -16,7 +16,11 @@ import Register from "pages/auth/register";
 const Dashboard = loadable(() => import("pages/dashboard"));
 const Pelanggan = loadable(() => import("pages/pelanggan"));
 const Income = loadable(() => import("pages/income"));
+
 const Produk = loadable(() => import("pages/produk"));
+const ProdukTambah = loadable(() => import("pages/produk/create"));
+const EditTambah = loadable(() => import("pages/produk/edit"));
+
 const Kategori = loadable(() => import("pages/category"));
 const Transaksi = loadable(() => import("pages/transaksi"));
 const SettingToko = loadable(() => import("pages/setting-toko"));
@@ -59,7 +63,11 @@ const routers = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "pelanggan-terdaftar", element: <Pelanggan /> },
       { path: "transaksi", element: <Transaksi /> },
+
       { path: "list-produk", element: <Produk /> },
+      { path: "list-produk/tambah", element: <ProdukTambah /> },
+      { path: "list-produk/update/:code", element: <EditTambah /> },
+
       { path: "list-kategori", element: <Kategori /> },
       { path: "pemasukan-dan-pengeluaran", element: <Income /> },
 
