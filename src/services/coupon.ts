@@ -32,3 +32,31 @@ export const getAllCoupon = async (): Promise<
 
   return result.data as ApiResponse<GetCouponResponse[]>;
 };
+
+export type GetGenerateCouponResponse = {
+  coupon: string;
+};
+
+export const getGenerateCoupon = async (): Promise<
+  ApiResponse<GetGenerateCouponResponse>
+> => {
+  const result = await axios.get("/coupon/generate");
+
+  return result.data as ApiResponse<GetGenerateCouponResponse>;
+};
+
+export type CreateCouponPayload = {
+  code: string;
+  type: "percent" | "fixed" | string;
+  discount: string | number;
+  description: string;
+  expired_at: string;
+};
+
+export const createCoupon = async (
+  payload: CreateCouponPayload
+): Promise<ApiResponse<null>> => {
+  const result = await axios.post("/coupon/create", payload);
+
+  return result.data as ApiResponse<null>;
+};

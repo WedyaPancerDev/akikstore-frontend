@@ -45,6 +45,7 @@ export type TransactionHistoryCustomerResponse = {
   order_date: Date | string;
   due_date: Date | string | null;
   customer_phone: string | null;
+  customer_id: number;
   order_details: Array<{
     product_name: string;
     shipping_name: string;
@@ -89,4 +90,31 @@ export const uploadTransactionProofing = async (
   const result = await axios.post("/file/uploads/proofing", payload);
 
   return result.data;
+};
+
+export interface CustomerTransactionProcessedResponse
+  extends TransactionHistoryCustomerResponse {
+  payment_proof: string | null;
+}
+
+export const customerTransactionProcessed = async (): Promise<
+  ApiResponse<CustomerTransactionProcessedResponse[]>
+> => {
+  const result = await axios.get("/order/processed-transaction");
+
+  return result.data as ApiResponse<CustomerTransactionProcessedResponse[]>;
+};
+
+export type UpdateStatusTransactionPayload = {
+  order_id: string;
+  status: "completed" | "cancelled";
+  customer_id: number;
+};
+
+export const updateStatusTransaction = async (
+  payload: UpdateStatusTransactionPayload
+): Promise<ApiResponse<null>> => {
+  const result = await axios.patch("/order/transaction/update-status-manual-payment", payload);
+
+  return result.data as ApiResponse<null>;
 };

@@ -10,14 +10,12 @@ type FormDialogProps = {
   title: string;
   open: boolean;
   handleClose: () => void;
-  orderNumber: string;
   children?: React.ReactNode;
   bottomAction?: React.ReactNode;
   maxWidth?: DialogProps["maxWidth"];
 };
 
 const FormDialog = ({
-  orderNumber,
   title,
   open,
   handleClose,

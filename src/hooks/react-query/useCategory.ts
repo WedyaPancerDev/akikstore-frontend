@@ -4,7 +4,7 @@ import type { ApiResponse } from "types/response";
 import { getCategory, type GetCategoryResponse } from "services/category";
 
 const useCategories = (): UseQueryResult<
-  ApiResponse<GetCategoryResponse>,
+  ApiResponse<GetCategoryResponse[]>,
   Error
 > => {
   const QUERY_KEY = ["categories"];

@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import {
   IconBuildingStore,
   IconCashRegister,
+  IconCategory,
   IconGiftCard,
   IconLayoutDashboard,
   IconNotes,
@@ -34,7 +35,8 @@ const iconBanner: Record<string, JSX.Element> = {
   "Pelanggan Terdaftar": <IconUsers style={{ flexShrink: 0 }} />,
   "Riwayat Transaksi": <IconCashRegister style={{ flexShrink: 0 }} />,
   Transaksi: <IconCashRegister style={{ flexShrink: 0 }} />,
-  "List Produk & Kategori": <IconShoppingCart style={{ flexShrink: 0 }} />,
+  "List Produk": <IconShoppingCart style={{ flexShrink: 0 }} />,
+  "List Kategori": <IconCategory style={{ flexShrink: 0 }} />,
   "Pemasukan & Pengeluaran": <IconNotes style={{ flexShrink: 0 }} />,
   "Setting Toko": <IconBuildingStore style={{ flexShrink: 0 }} />,
   Kupon: <IconGiftCard style={{ flexShrink: 0 }} />,

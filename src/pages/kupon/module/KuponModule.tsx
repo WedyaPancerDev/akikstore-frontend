@@ -12,13 +12,14 @@ import { useAllGetCoupon } from "hooks/react-query/useCoupon";
 import PageLoader from "components/PageLoader";
 import { type GetCouponResponse } from "services/coupon";
 import { formatDate, formatPrice } from "utils/helpers";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 const TableContainer = loadable(() => import("components/TableContainer"), {
   fallback: <p>...</p>,
 });
 
 const KuponModule = (): JSX.Element => {
+  const navigate = useNavigate();
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   const { data: kuponData, isLoading } = useAllGetCoupon();
@@ -35,7 +36,7 @@ const KuponModule = (): JSX.Element => {
       {
         headerName: "Kupon",
         field: "code",
-        flex: 1,
+        width: 180,
         filter: "agTextColumnFilter",
         floatingFilter: true,
       },
@@ -102,18 +103,16 @@ const KuponModule = (): JSX.Element => {
         headerName: "Aksi",
         field: "action",
         width: 190,
-        flex: 1,
-        cellRenderer: ({ data }: { data: any }) => {
+        cellRenderer: () => {
           return (
-            <Box display="flex" gap="0.5rem">
+            <Box display="flex" gap="0.5rem" marginTop="4px">
               <Button
                 type="button"
                 variant="contained"
                 color="warning"
                 size="small"
-                sx={{ display: "flex", alignItems: "center", fontWeight: 500 }}
+                sx={{ fontWeight: 500 }}
               >
-                <IconEdit size={20} style={{ marginRight: "2px" }} />
                 <span>Edit</span>
               </Button>
 
@@ -122,9 +121,8 @@ const KuponModule = (): JSX.Element => {
                 variant="contained"
                 color="error"
                 size="small"
-                sx={{ display: "flex", alignItems: "center", fontWeight: 500 }}
+                sx={{ fontWeight: 500 }}
               >
-                <IconTrash size={20} style={{ marginRight: "2px" }} />
                 <span>Nonaktifkan</span>
               </Button>
             </Box>
@@ -159,7 +157,14 @@ const KuponModule = (): JSX.Element => {
       }}
     >
       <Box marginBottom="20px">
-        <Button type="button" variant="contained" color="primary">
+        <Button
+          type="button"
+          onClick={() => {
+            navigate("/staff/kupon/tambah");
+          }}
+          variant="contained"
+          color="primary"
+        >
           Tambah Kupon
         </Button>
       </Box>

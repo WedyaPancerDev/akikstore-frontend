@@ -8,9 +8,9 @@ const Produk = (): JSX.Element => {
       <BannerTag
         type="dashboard"
         dataDashboard={{
-          title: "List Produk & Kategori",
+          title: "List Produk",
           description:
-            "Di sini Anda dapat melihat, menambah, mengedit, dan menghapus data produk dan kategori.",
+            "Di sini Anda dapat melihat, menambah, mengedit, dan menghapus data produk.",
         }}
       />
       <Box marginTop="20px"></Box>

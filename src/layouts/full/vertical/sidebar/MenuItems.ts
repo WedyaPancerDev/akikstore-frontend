@@ -4,10 +4,10 @@ import {
   IconLayoutDashboard,
   IconNotes,
   IconShoppingCart,
-  IconUser,
   IconUsers,
   IconCashRegister,
   IconGiftCard,
+  IconCategory,
 } from "@tabler/icons-react";
 
 interface MenuitemsType {
@@ -46,9 +46,16 @@ export const AdminMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
-    title: "List Produk & Kategori",
+    title: "List Produk",
     icon: IconShoppingCart,
     href: "/staff/list-produk",
+    chipColor: "secondary",
+  },
+  {
+    id: uniqueId(10),
+    title: "List Kategori",
+    icon: IconCategory,
+    href: "/staff/list-kategori",
     chipColor: "secondary",
   },
   {
@@ -75,13 +82,6 @@ export const AdminMenuItems: MenuitemsType[] = [
   {
     navlabel: true,
     subheader: "Applications",
-  },
-  {
-    id: uniqueId(10),
-    title: "Manajemen Staff",
-    icon: IconUser,
-    href: "/staff/manajemen-staff",
-    chipColor: "secondary",
   },
   {
     id: uniqueId(10),

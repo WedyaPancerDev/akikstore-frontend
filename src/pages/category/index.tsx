@@ -1,25 +1,25 @@
 import { Box } from "@mui/material";
 import BannerTag from "components/BannerTag";
 import PageContainer from "components/Container/PageContainer";
-import PelangganModule from "./module/PelangganModule";
+import CategoryModule from "./module/CategoryModule";
 
-const Pelanggan = (): JSX.Element => {
+const Category = (): JSX.Element => {
   return (
-    <PageContainer title="Pelanggan - AKIKSTORE" description="#">
+    <PageContainer title="Kategori - AKIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{
-          title: "Pelanggan Terdaftar",
+          title: "List Kategori",
           description:
-            "Di sini Anda dapat melihat informasi pelanggan.",
+            "Di sini Anda dapat melihat, menambah, mengedit, dan menghapus data kategori.",
         }}
       />
 
       <Box marginTop="20px">
-        <PelangganModule />
+        <CategoryModule />
       </Box>
     </PageContainer>
   );
 };
 
-export default Pelanggan;
+export default Category;

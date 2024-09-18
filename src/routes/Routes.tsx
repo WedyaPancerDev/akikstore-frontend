@@ -13,14 +13,16 @@ import Login from "pages/auth/login";
 import Register from "pages/auth/register";
 
 // ==> Admin
-const Staff = loadable(() => import("pages/staff"));
 const Dashboard = loadable(() => import("pages/dashboard"));
 const Pelanggan = loadable(() => import("pages/pelanggan"));
 const Income = loadable(() => import("pages/income"));
 const Produk = loadable(() => import("pages/produk"));
+const Kategori = loadable(() => import("pages/category"));
 const Transaksi = loadable(() => import("pages/transaksi"));
 const SettingToko = loadable(() => import("pages/setting-toko"));
+
 const Kupon = loadable(() => import("pages/kupon"));
+const KuponTambah = loadable(() => import("pages/kupon/create"));
 
 // ==> Pelanggan
 const UserLanding = loadable(() => import("pages/customers/landing"));
@@ -58,10 +60,13 @@ const routers = createBrowserRouter([
       { path: "pelanggan-terdaftar", element: <Pelanggan /> },
       { path: "transaksi", element: <Transaksi /> },
       { path: "list-produk", element: <Produk /> },
+      { path: "list-kategori", element: <Kategori /> },
       { path: "pemasukan-dan-pengeluaran", element: <Income /> },
+
       { path: "setting-toko", element: <SettingToko /> },
+
       { path: "kupon", element: <Kupon /> },
-      { path: "manajemen-staff", element: <Staff /> },
+      { path: "kupon/tambah", element: <KuponTambah /> },
     ],
     errorElement: <NotFound />,
   },

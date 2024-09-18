@@ -379,7 +379,6 @@ const TransactionDetailModule = (): JSX.Element => {
         <FormDialog
           open={open}
           maxWidth="sm"
-          orderNumber={orderNumber}
           title="Upload Bukti Transfer"
           handleClose={() => {
             handleCloseDialog();
