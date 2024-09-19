@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import useCookie from "hooks/useCookie";
 import { NewPayload } from "hooks/useCart";

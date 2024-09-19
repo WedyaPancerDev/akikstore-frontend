@@ -8,6 +8,8 @@ import {
   type TransactionHistoryCustomerCountResponse,
   customerTransactionProcessed,
   CustomerTransactionProcessedResponse,
+  OutcomeAndIncomeResponse,
+  outcomeAndIncome,
 } from "services/orders";
 
 const useHistoryTransactionCustomer = (
@@ -62,8 +64,23 @@ const useProcessedTransactions = (): UseQueryResult<
   });
 };
 
+const useIncomeAndOutcome = (
+  year: number = new Date().getFullYear()
+): UseQueryResult<ApiResponse<OutcomeAndIncomeResponse>, Error> => {
+  const QUERY_KEY = ["outcome-and-income", year];
+  const staleOneDay = 1000 * 60 * 60 * 24;
+
+  return useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: async () => (year ? await outcomeAndIncome(year) : null),
+    staleTime: staleOneDay,
+    retry: false,
+  });
+};
+
 export {
   useHistoryTransactionCustomer,
   useHistoryTransactionCustomerCount,
   useProcessedTransactions,
+  useIncomeAndOutcome,
 };

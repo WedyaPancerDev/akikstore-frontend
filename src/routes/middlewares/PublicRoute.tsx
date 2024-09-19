@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import type { ValidateProps } from "types";
 import useCookie from "hooks/useCookie";

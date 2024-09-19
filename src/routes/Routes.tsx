@@ -15,7 +15,7 @@ import Register from "pages/auth/register";
 // ==> Admin
 const Dashboard = loadable(() => import("pages/dashboard"));
 const Pelanggan = loadable(() => import("pages/pelanggan"));
-const Income = loadable(() => import("pages/income"));
+import Income from "pages/income";
 
 const Produk = loadable(() => import("pages/produk"));
 const ProdukTambah = loadable(() => import("pages/produk/create"));

@@ -1,15 +1,26 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import {
+  IconBike,
+  IconCashRegister,
   IconMoneybag,
   IconReport,
   IconReportAnalytics,
+  IconShoppingCart,
+  IconUsers,
 } from "@tabler/icons-react";
 
 interface SlimCardProps {
   title: string;
   value: number;
   isLoading: boolean;
-  type: "unpaid" | "paid" | "progress";
+  type:
+    | "unpaid"
+    | "paid"
+    | "progress"
+    | "product"
+    | "order"
+    | "customer"
+    | "kurir";
   style?: React.CSSProperties;
 }
 
@@ -24,6 +35,10 @@ const SlimCard = ({
     unpaid: <IconMoneybag size={24} />,
     paid: <IconReport size={24} />,
     progress: <IconReportAnalytics size={24} />,
+    product: <IconShoppingCart size={24} />,
+    order: <IconCashRegister size={24} />,
+    customer: <IconUsers size={24} />,
+    kurir: <IconBike size={24} />,
   };
 
   return (
@@ -48,10 +63,10 @@ const SlimCard = ({
           fontSize="16px"
           fontWeight={500}
         >
-          {title}
+          {title || ""}
         </Typography>
 
-        {icon[type]}
+        {icon[type] || <></>}
       </Box>
 
       <Box display="flex" justifyContent="space-between" alignItems="center">

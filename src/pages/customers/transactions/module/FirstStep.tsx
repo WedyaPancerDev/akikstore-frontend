@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useMemo } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { IconTrash } from "@tabler/icons-react";
 
 import useCart from "hooks/useCart";

@@ -10,580 +10,580 @@ import {
   IconUserPlus,
   IconLogin,
   IconAlertCircle,
-  IconSettings
-} from '@tabler/icons-react'
-import { nanoid as uniqueId } from 'nanoid'
+  IconSettings,
+} from "@tabler/icons-react";
+import { nanoid } from "nanoid";
 
 const Menuitems = [
   {
-    id: uniqueId(10),
-    title: 'Dashboard',
+    id: nanoid(10),
+    title: "Dashboard",
     icon: IconHome,
-    href: '/dashboards/',
+    href: "/dashboards/",
     children: [
       {
-        id: uniqueId(10),
-        title: 'Modern',
+        id: nanoid(10),
+        title: "Modern",
         icon: IconPoint,
-        href: '/',
-        chipColor: 'secondary'
+        href: "/",
+        chipColor: "secondary",
       },
       {
-        id: uniqueId(10),
-        title: 'eCommerce',
+        id: nanoid(10),
+        title: "eCommerce",
         icon: IconPoint,
-        href: '/dashboards/ecommerce'
-      }
-    ]
+        href: "/dashboards/ecommerce",
+      },
+    ],
   },
   {
-    id: uniqueId(10),
-    title: 'Apps',
+    id: nanoid(10),
+    title: "Apps",
     icon: IconApps,
-    href: '/apps/',
+    href: "/apps/",
     children: [
       {
-        id: uniqueId(10),
-        title: 'Contacts',
+        id: nanoid(10),
+        title: "Contacts",
         icon: IconPoint,
-        href: '/apps/contacts'
+        href: "/apps/contacts",
       },
       {
-        id: uniqueId(10),
-        title: 'Chats',
+        id: nanoid(10),
+        title: "Chats",
         icon: IconPoint,
-        href: '/apps/chats'
+        href: "/apps/chats",
       },
       {
-        id: uniqueId(10),
-        title: 'Notes',
+        id: nanoid(10),
+        title: "Notes",
         icon: IconPoint,
-        href: '/apps/notes'
+        href: "/apps/notes",
       },
       {
-        id: uniqueId(10),
-        title: 'Calendar',
+        id: nanoid(10),
+        title: "Calendar",
         icon: IconPoint,
-        href: '/apps/calendar'
+        href: "/apps/calendar",
       },
       {
-        id: uniqueId(10),
-        title: 'Email',
+        id: nanoid(10),
+        title: "Email",
         icon: IconPoint,
-        href: '/apps/email'
+        href: "/apps/email",
       },
       {
-        id: uniqueId(10),
-        title: 'Tickets',
+        id: nanoid(10),
+        title: "Tickets",
         icon: IconPoint,
-        href: '/apps/tickets'
+        href: "/apps/tickets",
       },
       {
-        id: uniqueId(10),
-        title: 'User Profile',
+        id: nanoid(10),
+        title: "User Profile",
         icon: IconPoint,
-        href: '/user-profile',
+        href: "/user-profile",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Profile',
+            id: nanoid(10),
+            title: "Profile",
             icon: IconPoint,
-            href: '/user-profile'
+            href: "/user-profile",
           },
           {
-            id: uniqueId(10),
-            title: 'Followers',
+            id: nanoid(10),
+            title: "Followers",
             icon: IconPoint,
-            href: '/apps/followers'
+            href: "/apps/followers",
           },
           {
-            id: uniqueId(10),
-            title: 'Friends',
+            id: nanoid(10),
+            title: "Friends",
             icon: IconPoint,
-            href: '/apps/friends'
+            href: "/apps/friends",
           },
           {
-            id: uniqueId(10),
-            title: 'Gallery',
+            id: nanoid(10),
+            title: "Gallery",
             icon: IconPoint,
-            href: '/apps/gallery'
-          }
-        ]
+            href: "/apps/gallery",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Ecommerce',
+        id: nanoid(10),
+        title: "Ecommerce",
         icon: IconPoint,
-        href: '/apps/ecommerce/',
+        href: "/apps/ecommerce/",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Shop',
+            id: nanoid(10),
+            title: "Shop",
             icon: IconPoint,
-            href: '/apps/ecommerce/shop'
+            href: "/apps/ecommerce/shop",
           },
           {
-            id: uniqueId(10),
-            title: 'Detail',
+            id: nanoid(10),
+            title: "Detail",
             icon: IconPoint,
-            href: '/apps/ecommerce/detail/1'
+            href: "/apps/ecommerce/detail/1",
           },
           {
-            id: uniqueId(10),
-            title: 'List',
+            id: nanoid(10),
+            title: "List",
             icon: IconPoint,
-            href: '/apps/ecommerce/eco-product-list'
+            href: "/apps/ecommerce/eco-product-list",
           },
           {
-            id: uniqueId(10),
-            title: 'Checkout',
+            id: nanoid(10),
+            title: "Checkout",
             icon: IconPoint,
-            href: '/apps/ecommerce/eco-checkout'
-          }
-        ]
+            href: "/apps/ecommerce/eco-checkout",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Blog',
+        id: nanoid(10),
+        title: "Blog",
         icon: IconPoint,
-        href: '/apps/blog/',
+        href: "/apps/blog/",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Posts',
+            id: nanoid(10),
+            title: "Posts",
             icon: IconPoint,
-            href: '/apps/blog/posts'
+            href: "/apps/blog/posts",
           },
           {
-            id: uniqueId(10),
-            title: 'Detail',
+            id: nanoid(10),
+            title: "Detail",
             icon: IconPoint,
-            href: '/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow'
-          }
-        ]
-      }
-    ]
+            href: "/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow",
+          },
+        ],
+      },
+    ],
   },
 
   {
-    id: uniqueId(10),
-    title: 'Pages',
+    id: nanoid(10),
+    title: "Pages",
     icon: IconClipboard,
-    href: '/ui-components/',
+    href: "/ui-components/",
     children: [
       {
-        id: uniqueId(10),
-        title: 'Treeview',
+        id: nanoid(10),
+        title: "Treeview",
         icon: IconPoint,
-        href: '/theme-pages/treeview'
+        href: "/theme-pages/treeview",
       },
       {
-        id: uniqueId(10),
-        title: 'Pricing',
+        id: nanoid(10),
+        title: "Pricing",
         icon: IconPoint,
-        href: '/theme-pages/pricing'
+        href: "/theme-pages/pricing",
       },
       {
-        id: uniqueId(10),
-        title: 'Account Setting',
+        id: nanoid(10),
+        title: "Account Setting",
         icon: IconPoint,
-        href: '/theme-pages/account-settings'
+        href: "/theme-pages/account-settings",
       },
       {
-        id: uniqueId(10),
-        title: 'FAQ',
+        id: nanoid(10),
+        title: "FAQ",
         icon: IconPoint,
-        href: '/theme-pages/faq'
+        href: "/theme-pages/faq",
       },
       {
-        id: uniqueId(10),
-        title: 'Widgets',
+        id: nanoid(10),
+        title: "Widgets",
         icon: IconPoint,
-        href: '/widgets/cards',
+        href: "/widgets/cards",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Cards',
+            id: nanoid(10),
+            title: "Cards",
             icon: IconPoint,
-            href: '/widgets/cards'
+            href: "/widgets/cards",
           },
           {
-            id: uniqueId(10),
-            title: 'Banners',
+            id: nanoid(10),
+            title: "Banners",
             icon: IconPoint,
-            href: '/widgets/banners'
+            href: "/widgets/banners",
           },
           {
-            id: uniqueId(10),
-            title: 'Charts',
+            id: nanoid(10),
+            title: "Charts",
             icon: IconPoint,
-            href: '/widgets/charts'
-          }
-        ]
+            href: "/widgets/charts",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Ui',
+        id: nanoid(10),
+        title: "Ui",
         icon: IconPoint,
-        href: '/ui-components/alert',
+        href: "/ui-components/alert",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Alert',
+            id: nanoid(10),
+            title: "Alert",
             icon: IconPoint,
-            href: '/ui-components/alert'
+            href: "/ui-components/alert",
           },
           {
-            id: uniqueId(10),
-            title: 'Accordion',
+            id: nanoid(10),
+            title: "Accordion",
             icon: IconPoint,
-            href: '/ui-components/accordion'
+            href: "/ui-components/accordion",
           },
           {
-            id: uniqueId(10),
-            title: 'Avatar',
+            id: nanoid(10),
+            title: "Avatar",
             icon: IconPoint,
-            href: '/ui-components/avatar'
+            href: "/ui-components/avatar",
           },
           {
-            id: uniqueId(10),
-            title: 'Chip',
+            id: nanoid(10),
+            title: "Chip",
             icon: IconPoint,
-            href: '/ui-components/chip'
+            href: "/ui-components/chip",
           },
           {
-            id: uniqueId(10),
-            title: 'Dialog',
+            id: nanoid(10),
+            title: "Dialog",
             icon: IconPoint,
-            href: '/ui-components/dialog'
+            href: "/ui-components/dialog",
           },
           {
-            id: uniqueId(10),
-            title: 'List',
+            id: nanoid(10),
+            title: "List",
             icon: IconPoint,
-            href: '/ui-components/list'
+            href: "/ui-components/list",
           },
           {
-            id: uniqueId(10),
-            title: 'Popover',
+            id: nanoid(10),
+            title: "Popover",
             icon: IconPoint,
-            href: '/ui-components/popover'
+            href: "/ui-components/popover",
           },
           {
-            id: uniqueId(10),
-            title: 'Rating',
+            id: nanoid(10),
+            title: "Rating",
             icon: IconPoint,
-            href: '/ui-components/rating'
+            href: "/ui-components/rating",
           },
           {
-            id: uniqueId(10),
-            title: 'Tabs',
+            id: nanoid(10),
+            title: "Tabs",
             icon: IconPoint,
-            href: '/ui-components/tabs'
+            href: "/ui-components/tabs",
           },
           {
-            id: uniqueId(10),
-            title: 'Tooltip',
+            id: nanoid(10),
+            title: "Tooltip",
             icon: IconPoint,
-            href: '/ui-components/tooltip'
+            href: "/ui-components/tooltip",
           },
           {
-            id: uniqueId(10),
-            title: 'Transfer List',
+            id: nanoid(10),
+            title: "Transfer List",
             icon: IconPoint,
-            href: '/ui-components/transfer-list'
+            href: "/ui-components/transfer-list",
           },
           {
-            id: uniqueId(10),
-            title: 'Typography',
+            id: nanoid(10),
+            title: "Typography",
             icon: IconPoint,
-            href: '/typography'
-          }
-        ]
+            href: "/typography",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Charts',
+        id: nanoid(10),
+        title: "Charts",
         icon: IconPoint,
-        href: '/charts/',
+        href: "/charts/",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Line',
+            id: nanoid(10),
+            title: "Line",
             icon: IconPoint,
-            href: '/charts/line-chart'
+            href: "/charts/line-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'Gredient',
+            id: nanoid(10),
+            title: "Gredient",
             icon: IconPoint,
-            href: '/charts/gredient-chart'
+            href: "/charts/gredient-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'Area',
+            id: nanoid(10),
+            title: "Area",
             icon: IconPoint,
-            href: '/charts/area-chart'
+            href: "/charts/area-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'Candlestick',
+            id: nanoid(10),
+            title: "Candlestick",
             icon: IconPoint,
-            href: '/charts/candlestick-chart'
+            href: "/charts/candlestick-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'Column',
+            id: nanoid(10),
+            title: "Column",
             icon: IconPoint,
-            href: '/charts/column-chart'
+            href: "/charts/column-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'Doughtnut & Pie',
+            id: nanoid(10),
+            title: "Doughtnut & Pie",
             icon: IconPoint,
-            href: '/charts/doughnut-pie-chart'
+            href: "/charts/doughnut-pie-chart",
           },
           {
-            id: uniqueId(10),
-            title: 'RadialBar & Radar',
+            id: nanoid(10),
+            title: "RadialBar & Radar",
             icon: IconPoint,
-            href: '/charts/radialbar-chart'
-          }
-        ]
+            href: "/charts/radialbar-chart",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Auth',
+        id: nanoid(10),
+        title: "Auth",
         icon: IconPoint,
-        href: '/400',
+        href: "/400",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Error',
+            id: nanoid(10),
+            title: "Error",
             icon: IconAlertCircle,
-            href: '/400'
+            href: "/400",
           },
           {
-            id: uniqueId(10),
-            title: 'Maintenance',
+            id: nanoid(10),
+            title: "Maintenance",
             icon: IconSettings,
-            href: '/auth/maintenance'
+            href: "/auth/maintenance",
           },
           {
-            id: uniqueId(10),
-            title: 'Login',
+            id: nanoid(10),
+            title: "Login",
             icon: IconLogin,
-            href: '/auth/auth1/login',
+            href: "/auth/auth1/login",
             children: [
               {
-                id: uniqueId(10),
-                title: 'Side Login',
+                id: nanoid(10),
+                title: "Side Login",
                 icon: IconPoint,
-                href: '/auth/auth1/login'
+                href: "/auth/auth1/login",
               },
               {
-                id: uniqueId(10),
-                title: 'Boxed Login',
+                id: nanoid(10),
+                title: "Boxed Login",
                 icon: IconPoint,
-                href: 'auth/auth2/login'
-              }
-            ]
+                href: "auth/auth2/login",
+              },
+            ],
           },
           {
-            id: uniqueId(10),
-            title: 'Register',
+            id: nanoid(10),
+            title: "Register",
             icon: IconUserPlus,
-            href: '/auth/auth1/register',
+            href: "/auth/auth1/register",
             children: [
               {
-                id: uniqueId(10),
-                title: 'Side Register',
+                id: nanoid(10),
+                title: "Side Register",
                 icon: IconPoint,
-                href: '/auth/auth1/register'
+                href: "/auth/auth1/register",
               },
               {
-                id: uniqueId(10),
-                title: 'Boxed Register',
+                id: nanoid(10),
+                title: "Boxed Register",
                 icon: IconPoint,
-                href: '/auth/auth2/register'
-              }
-            ]
+                href: "/auth/auth2/register",
+              },
+            ],
           },
           {
-            id: uniqueId(10),
-            title: 'Forgot Password',
+            id: nanoid(10),
+            title: "Forgot Password",
             icon: IconRotate,
-            href: '/auth/auth1/forgot-password',
+            href: "/auth/auth1/forgot-password",
             children: [
               {
-                id: uniqueId(10),
-                title: 'Side Forgot Password',
+                id: nanoid(10),
+                title: "Side Forgot Password",
                 icon: IconPoint,
-                href: '/auth/auth1/forgot-password'
+                href: "/auth/auth1/forgot-password",
               },
               {
-                id: uniqueId(10),
-                title: 'Boxed Forgot Password',
+                id: nanoid(10),
+                title: "Boxed Forgot Password",
                 icon: IconPoint,
-                href: '/auth/auth2/forgot-password'
-              }
-            ]
+                href: "/auth/auth2/forgot-password",
+              },
+            ],
           },
           {
-            id: uniqueId(10),
-            title: 'Two Steps',
+            id: nanoid(10),
+            title: "Two Steps",
             icon: IconZoomCode,
-            href: '/auth/auth1/two-steps',
+            href: "/auth/auth1/two-steps",
             children: [
               {
-                id: uniqueId(10),
-                title: 'Side Two Steps',
+                id: nanoid(10),
+                title: "Side Two Steps",
                 icon: IconPoint,
-                href: '/auth/auth1/two-steps'
+                href: "/auth/auth1/two-steps",
               },
               {
-                id: uniqueId(10),
-                title: 'Boxed Two Steps',
+                id: nanoid(10),
+                title: "Boxed Two Steps",
                 icon: IconPoint,
-                href: '/auth/auth2/two-steps'
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                href: "/auth/auth2/two-steps",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
-    id: uniqueId(10),
-    title: 'Forms',
+    id: nanoid(10),
+    title: "Forms",
     icon: IconFileDescription,
-    href: '/forms/form-elements/autocomplete',
+    href: "/forms/form-elements/autocomplete",
     children: [
       {
-        id: uniqueId(10),
-        title: 'Form Elements',
+        id: nanoid(10),
+        title: "Form Elements",
         icon: IconPoint,
-        href: '/forms/form-elements/autocomplete',
+        href: "/forms/form-elements/autocomplete",
         children: [
           {
-            id: uniqueId(10),
-            title: 'Autocomplete',
+            id: nanoid(10),
+            title: "Autocomplete",
             icon: IconPoint,
-            href: '/forms/form-elements/autocomplete'
+            href: "/forms/form-elements/autocomplete",
           },
           {
-            id: uniqueId(10),
-            title: 'Button',
+            id: nanoid(10),
+            title: "Button",
             icon: IconPoint,
-            href: '/forms/form-elements/button'
+            href: "/forms/form-elements/button",
           },
           {
-            id: uniqueId(10),
-            title: 'Radio',
+            id: nanoid(10),
+            title: "Radio",
             icon: IconPoint,
-            href: '/forms/form-elements/radio'
+            href: "/forms/form-elements/radio",
           },
           {
-            id: uniqueId(10),
-            title: 'Date Time',
+            id: nanoid(10),
+            title: "Date Time",
             icon: IconPoint,
-            href: '/forms/form-elements/date-time'
+            href: "/forms/form-elements/date-time",
           },
           {
-            id: uniqueId(10),
-            title: 'Slider',
+            id: nanoid(10),
+            title: "Slider",
             icon: IconPoint,
-            href: '/forms/form-elements/slider'
+            href: "/forms/form-elements/slider",
           },
           {
-            id: uniqueId(10),
-            title: 'Switch',
+            id: nanoid(10),
+            title: "Switch",
             icon: IconPoint,
-            href: '/forms/form-elements/switch'
-          }
-        ]
+            href: "/forms/form-elements/switch",
+          },
+        ],
       },
       {
-        id: uniqueId(10),
-        title: 'Form Layout',
+        id: nanoid(10),
+        title: "Form Layout",
         icon: IconPoint,
-        href: '/forms/form-layouts'
+        href: "/forms/form-layouts",
       },
       {
-        id: uniqueId(10),
-        title: 'Form Horizontal',
+        id: nanoid(10),
+        title: "Form Horizontal",
         icon: IconPoint,
-        href: '/forms/form-horizontal'
+        href: "/forms/form-horizontal",
       },
       {
-        id: uniqueId(10),
-        title: 'Form Vertical',
+        id: nanoid(10),
+        title: "Form Vertical",
         icon: IconPoint,
-        href: '/forms/form-vertical'
+        href: "/forms/form-vertical",
       },
       {
-        id: uniqueId(10),
-        title: 'Form Custom',
+        id: nanoid(10),
+        title: "Form Custom",
         icon: IconPoint,
-        href: '/forms/form-custom'
+        href: "/forms/form-custom",
       },
       {
-        id: uniqueId(10),
-        title: 'Form Wizard',
+        id: nanoid(10),
+        title: "Form Wizard",
         icon: IconPoint,
-        href: '/forms/form-wizard'
+        href: "/forms/form-wizard",
       },
       {
-        id: uniqueId(10),
-        title: 'Form Validation',
+        id: nanoid(10),
+        title: "Form Validation",
         icon: IconPoint,
-        href: '/forms/form-validation'
-      }
-    ]
+        href: "/forms/form-validation",
+      },
+    ],
   },
   {
-    id: uniqueId(10),
-    title: 'Tables',
+    id: nanoid(10),
+    title: "Tables",
     icon: IconBorderAll,
-    href: '/tables/',
+    href: "/tables/",
     children: [
       {
-        id: uniqueId(10),
-        title: 'Basic',
+        id: nanoid(10),
+        title: "Basic",
         icon: IconPoint,
-        href: '/tables/basic'
+        href: "/tables/basic",
       },
       {
-        id: uniqueId(10),
-        title: 'Collapsible',
+        id: nanoid(10),
+        title: "Collapsible",
         icon: IconPoint,
-        href: '/tables/collapsible'
+        href: "/tables/collapsible",
       },
       {
-        id: uniqueId(10),
-        title: 'Enhanced',
+        id: nanoid(10),
+        title: "Enhanced",
         icon: IconPoint,
-        href: '/tables/enhanced'
+        href: "/tables/enhanced",
       },
       {
-        id: uniqueId(10),
-        title: 'Fixed Header',
+        id: nanoid(10),
+        title: "Fixed Header",
         icon: IconPoint,
-        href: '/tables/fixed-header'
+        href: "/tables/fixed-header",
       },
       {
-        id: uniqueId(10),
-        title: 'Pagination',
+        id: nanoid(10),
+        title: "Pagination",
         icon: IconPoint,
-        href: '/tables/pagination'
+        href: "/tables/pagination",
       },
       {
-        id: uniqueId(10),
-        title: 'Search',
+        id: nanoid(10),
+        title: "Search",
         icon: IconPoint,
-        href: '/tables/search'
-      }
-    ]
-  }
-]
-export default Menuitems
+        href: "/tables/search",
+      },
+    ],
+  },
+];
+export default Menuitems;

@@ -114,7 +114,26 @@ export type UpdateStatusTransactionPayload = {
 export const updateStatusTransaction = async (
   payload: UpdateStatusTransactionPayload
 ): Promise<ApiResponse<null>> => {
-  const result = await axios.patch("/order/transaction/update-status-manual-payment", payload);
+  const result = await axios.patch(
+    "/order/transaction/update-status-manual-payment",
+    payload
+  );
 
   return result.data as ApiResponse<null>;
+};
+
+export type OutcomeAndIncomeResponse = {
+  [key: number]: Array<{
+    month: string;
+    income: number;
+    outcome: number;
+  }>;
+};
+
+export const outcomeAndIncome = async (
+  year: number = new Date().getFullYear()
+): Promise<ApiResponse<OutcomeAndIncomeResponse>> => {
+  const result = await axios.get(`/order/outcome?year=${year}`);
+
+  return result.data as ApiResponse<OutcomeAndIncomeResponse>;
 };

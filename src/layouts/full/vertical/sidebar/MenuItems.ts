@@ -1,4 +1,4 @@
-import { nanoid as uniqueId } from "nanoid";
+import { nanoid } from "nanoid";
 import {
   IconLayoutDashboard,
   IconNotes,
@@ -31,49 +31,49 @@ export const AdminMenuItems: MenuitemsType[] = [
     subheader: "Home",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Dashboard",
     icon: IconLayoutDashboard,
     href: "/staff/dashboard",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Transaksi",
     icon: IconCashRegister,
     href: "/staff/transaksi",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "List Produk",
     icon: IconShoppingCart,
     href: "/staff/list-produk",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "List Kategori",
     icon: IconCategory,
     href: "/staff/list-kategori",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Pemasukan & Pengeluaran",
     icon: IconNotes,
     href: "/staff/pemasukan-dan-pengeluaran",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Kupon",
     icon: IconGiftCard,
     href: "/staff/kupon",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Setting Kurir",
     icon: IconBike,
     href: "/staff/setting-kurir",
@@ -84,7 +84,7 @@ export const AdminMenuItems: MenuitemsType[] = [
     subheader: "Applications",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Pelanggan Terdaftar",
     icon: IconUsers,
     href: "/staff/pelanggan-terdaftar",
@@ -98,14 +98,14 @@ export const CustomerMenuItems: MenuitemsType[] = [
     subheader: "Home",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Dashboard Pelanggan",
     icon: IconLayoutDashboard,
     href: "/pelanggan/dashboard",
     chipColor: "secondary",
   },
   {
-    id: uniqueId(10),
+    id: nanoid(10),
     title: "Riwayat Transaksi",
     icon: IconCashRegister,
     href: "/pelanggan/transaksi",
