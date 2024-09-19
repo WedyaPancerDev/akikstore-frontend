@@ -9,15 +9,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useEffect } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import Select from "react-select";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+
+import CustomTextField from "components/OutlineInput";
 
 import { getCustomStyle } from "utils/react-select";
 import { ReactSelectValueProps } from "types";
 import { useIncomeAndOutcome } from "hooks/react-query/useOrder";
 import PageLoaderTwo from "components/PageLoaderTwo";
+import { getGeneratePDF } from "services/pdf";
+import toast from "react-hot-toast";
 
 const listYear = [
   { value: "2021", label: "2021" },
@@ -36,13 +41,16 @@ const listYear = [
 ];
 
 const IncomeModule = (): JSX.Element => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const { control, watch, setValue } = useForm({
     defaultValues: {
       filterIncome: "",
+      currentDate: "",
     },
   });
 
-  const { filterIncome } = watch();
+  const { filterIncome, currentDate } = watch();
 
   const filterIncomeValue = (filterIncome as unknown as ReactSelectValueProps)
     ?.value;
@@ -51,14 +59,39 @@ const IncomeModule = (): JSX.Element => {
     filterIncomeValue ? Number(filterIncomeValue) : 2024
   );
 
-  const setDefaultFilter = (): void => {
-    setValue(
-      "filterIncome",
-      listYear?.find((year) => year.value === "2024") as any
-    );
+  const handleGeneratePDF = async (): Promise<void> => {
+    const payload = {
+      first_date: moment(currentDate).format("DD-MM-YYYY"),
+    };
+
+    try {
+      setIsSubmitting(true);
+
+      const result = await getGeneratePDF(payload);
+
+      if (result.success) {
+        toast.success("Berhasil membuat PDF");
+        setValue("currentDate", "");
+
+        window.open(result.data.url, "_blank");
+      }
+
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+      console.error({ error });
+      toast.error("Gagal membuat PDF");
+    }
   };
 
   useEffect(() => {
+    const setDefaultFilter = (): void => {
+      setValue(
+        "filterIncome",
+        listYear?.find((year) => year.value === "2024") as any
+      );
+    };
+
     setDefaultFilter();
   }, []);
 
@@ -68,52 +101,111 @@ const IncomeModule = (): JSX.Element => {
 
   return (
     <Box sx={{ paddingTop: "20px", display: "flex", flexDirection: "column" }}>
+      <Box display="flex" flexDirection="column" sx={{ px: 3, mb: 3 }}>
+        <Typography
+          variant="h5"
+          fontWeight={700}
+          letterSpacing="-0.01em"
+          mb={1}
+        >
+          Cetak Laporan
+        </Typography>
+
+        <Box display="flex" alignItems="center">
+          <Controller
+            name="currentDate"
+            control={control}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <Box className="form-control" width="100%">
+                  <CustomTextField
+                    {...field}
+                    fullWidth
+                    type="date"
+                    error={!!error}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const value = e.target.value;
+                      field.onChange(value);
+                    }}
+                    sx={{ fontWeight: 600, marginBottom: "4px" }}
+                  />
+
+                  {error && (
+                    <Typography
+                      variant="caption"
+                      fontSize="12px"
+                      fontWeight={600}
+                      color="red"
+                    >
+                      {error.message}
+                    </Typography>
+                  )}
+                </Box>
+              );
+            }}
+          />
+
+          <Button
+            type="button"
+            size="large"
+            variant="contained"
+            color="primary"
+            onClick={handleGeneratePDF}
+            disabled={isSubmitting || !currentDate}
+            sx={{ ml: 2, flexShrink: 0 }}
+          >
+            {isSubmitting ? "Sedang Memproses..." : "Cetak PDF"}
+          </Button>
+        </Box>
+      </Box>
+
       <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
         sx={{ px: 3, mb: 3 }}
       >
-        <Typography
-          variant="h3"
-          fontSize="26px"
-          fontWeight={700}
-          letterSpacing="-0.01em"
-        >
+        <Typography variant="h5" fontWeight={700} letterSpacing="-0.01em">
           Pemasukan dan Pengeluaran Tahunan
         </Typography>
 
-        <Controller
-          name="filterIncome"
-          control={control}
-          render={({ field, fieldState: { error } }) => {
-            return (
-              <Box className="form-control" sx={{ width: "20%" }}>
-                <Select<ReactSelectValueProps>
-                  {...(field as any)}
-                  inputId="filterIncome"
-                  classNamePrefix="select"
-                  getOptionLabel={(option) => option.label}
-                  getOptionValue={(option) => option.value}
-                  options={listYear || []}
-                  placeholder="Pilih Tahun"
-                  styles={getCustomStyle(error)}
-                />
+        <Box
+          display="flex"
+          alignItems="center"
+          sx={{ width: "20%", gap: "1rem" }}
+        >
+          <Controller
+            name="filterIncome"
+            control={control}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <Box className="form-control" width="100%">
+                  <Select<ReactSelectValueProps>
+                    {...(field as any)}
+                    inputId="filterIncome"
+                    classNamePrefix="select"
+                    getOptionLabel={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    options={listYear || []}
+                    placeholder="Pilih Tahun"
+                    styles={getCustomStyle(error)}
+                  />
 
-                {error && (
-                  <Typography
-                    variant="caption"
-                    fontSize="12px"
-                    fontWeight={600}
-                    color="red"
-                  >
-                    {error.message}
-                  </Typography>
-                )}
-              </Box>
-            );
-          }}
-        />
+                  {error && (
+                    <Typography
+                      variant="caption"
+                      fontSize="12px"
+                      fontWeight={600}
+                      color="red"
+                    >
+                      {error.message}
+                    </Typography>
+                  )}
+                </Box>
+              );
+            }}
+          />
+        </Box>
       </Box>
 
       <ResponsiveContainer width="100%" height={400}>
