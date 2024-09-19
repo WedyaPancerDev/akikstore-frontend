@@ -9,7 +9,7 @@ export type LoginResponse = {
   email: string;
   user_id: string;
   avatar: string;
-  person: number
+  person: number;
   exp: number;
 };
 
@@ -94,6 +94,19 @@ export const getStatusToken = async (): Promise<
 
 export const authLogout = async (): Promise<ApiResponse<null>> => {
   const result = await axios.post("/auth/logout");
+
+  return result.data as ApiResponse<null>;
+};
+
+export type ChangePasswordPayload = {
+  current_password: string;
+  new_password: string;
+};
+
+export const changePassword = async (
+  payload: ChangePasswordPayload
+): Promise<ApiResponse<null>> => {
+  const result = await axios.patch("/auth/change-password", payload);
 
   return result.data as ApiResponse<null>;
 };

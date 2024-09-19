@@ -11,7 +11,7 @@ import { useDispatch } from "store/Store";
 import { setProfile } from "store/apps/DashboardSlice";
 
 interface ILogoutHookReturn {
-  handleLogout: (url: string) => Promise<void>;
+  handleLogout: (url?: string) => Promise<void>;
   isLoadingLogout: boolean;
 }
 

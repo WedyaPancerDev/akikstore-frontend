@@ -7,9 +7,9 @@ import { formatPrice } from "utils/helpers";
 
 interface Props extends OptionProps<GetShippingCostResponse> {}
 
-const CustomSelect: FC<Props> = (props) => {
+const CustomSelectShippingCost: FC<Props> = (props) => {
   const currentVal = props.getValue();
-  const isSelected = currentVal[0]?.id === props.data?.id;
+  const isSelected = currentVal[0]?.service === props.data?.service;
 
   const CustomBox = styled("div")({
     padding: "5px 12px",
@@ -63,13 +63,11 @@ const CustomSelect: FC<Props> = (props) => {
           "text-xs font-vr-demi-bold"
         )}
       >
-        Wilayah:{" "}
-        <b style={{ color: "#1f2937" }}>
-          {props.data.area?.toUpperCase()} | {props.data.city}
-        </b>
+        Perusahaan:{" "}
+        <b style={{ color: "#1f2937" }}>{props.data.code?.toUpperCase()}</b>
       </Typography>
     </CustomBox>
   );
 };
 
-export default CustomSelect;
+export default CustomSelectShippingCost;

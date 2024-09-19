@@ -23,7 +23,9 @@ const EditTambah = loadable(() => import("pages/produk/edit"));
 
 const Kategori = loadable(() => import("pages/category"));
 const Transaksi = loadable(() => import("pages/transaksi"));
-const SettingToko = loadable(() => import("pages/setting-toko"));
+
+const SettingKurir = loadable(() => import("pages/setting-kurir"));
+const SettingKurirTambah = loadable(() => import("pages/setting-kurir/create"));
 
 const Kupon = loadable(() => import("pages/kupon"));
 const KuponTambah = loadable(() => import("pages/kupon/create"));
@@ -34,6 +36,8 @@ const Transactions = loadable(() => import("pages/customers/transactions"));
 const TransactionSuccess = loadable(
   () => import("pages/customers/transactions-success")
 );
+
+import ChangePassword from "pages/change-password";
 
 const CustomerDashboard = loadable(() => import("pages/customers/dashboard"));
 const TransactionDetailDashboard = loadable(
@@ -71,7 +75,8 @@ const routers = createBrowserRouter([
       { path: "list-kategori", element: <Kategori /> },
       { path: "pemasukan-dan-pengeluaran", element: <Income /> },
 
-      { path: "setting-toko", element: <SettingToko /> },
+      { path: "setting-kurir", element: <SettingKurir /> },
+      { path: "setting-kurir/tambah", element: <SettingKurirTambah /> },
 
       { path: "kupon", element: <Kupon /> },
       { path: "kupon/tambah", element: <KuponTambah /> },
@@ -91,6 +96,15 @@ const routers = createBrowserRouter([
       { path: "transaksi", element: <TransactionDetailDashboard /> },
     ],
     errorElement: <NotFound />,
+  },
+  {
+    path: "/",
+    element: (
+      <AuthenticatedRoute>
+        <FullLayout />
+      </AuthenticatedRoute>
+    ),
+    children: [{ path: "/ubah-password", element: <ChangePassword /> }],
   },
   {
     path: "/",

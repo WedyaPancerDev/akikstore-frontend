@@ -10,11 +10,12 @@ import {
   Stack,
   Skeleton,
 } from "@mui/material";
-import { IconMail } from "@tabler/icons-react";
+import { IconMail, IconUserEdit } from "@tabler/icons-react";
 import { useSelector } from "react-redux";
 
 import { AppState } from "store/Store";
 import useLogout from "hooks/useLogout";
+import { Link } from "react-router-dom";
 
 const Profile = (): JSX.Element => {
   const { profile } = useSelector((state: AppState) => state.dashboard);
@@ -147,6 +148,28 @@ const Profile = (): JSX.Element => {
         </Stack>
         <Divider />
         <Box mt={2}>
+          <Button
+            to="/ubah-password"
+            component={Link}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontWeight: 700,
+              gap: "5px",
+              border: "2px solid #4b5563",
+              borderBottom: "5px solid #4b5563",
+              borderRight: "5px solid #4b5563",
+              marginBottom: "10px",
+              "&:hover": {
+                backgroundColor: "#d1d5db",
+              },
+            }}
+            variant="outlined"
+            color="inherit"
+          >
+            <IconUserEdit />
+            <span>Ubah Password Kamu</span>
+          </Button>
           <Button
             fullWidth
             type="button"

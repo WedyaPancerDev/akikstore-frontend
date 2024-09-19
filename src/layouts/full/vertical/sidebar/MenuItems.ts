@@ -1,6 +1,5 @@
 import { nanoid as uniqueId } from "nanoid";
 import {
-  IconBuildingStore,
   IconLayoutDashboard,
   IconNotes,
   IconShoppingCart,
@@ -8,6 +7,7 @@ import {
   IconCashRegister,
   IconGiftCard,
   IconCategory,
+  IconBike,
 } from "@tabler/icons-react";
 
 interface MenuitemsType {
@@ -74,9 +74,9 @@ export const AdminMenuItems: MenuitemsType[] = [
   },
   {
     id: uniqueId(10),
-    title: "Setting Toko",
-    icon: IconBuildingStore,
-    href: "/staff/setting-toko",
+    title: "Setting Kurir",
+    icon: IconBike,
+    href: "/staff/setting-kurir",
     chipColor: "secondary",
   },
   {

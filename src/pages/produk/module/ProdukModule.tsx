@@ -101,18 +101,24 @@ const ProdukModule = (): JSX.Element => {
         width: 180,
         cellRenderer: ({ data }: { data: SelectedRows }) => {
           return (
-            <Button
-              type="button"
-              variant="text"
-              color="primary"
-              size="small"
-              onClick={() => {
-                handleOpenImages(data);
-              }}
-              sx={{ marginBottom: "4px", fontWeight: 600 }}
-            >
-              Lihat Gambar
-            </Button>
+            <>
+              {data.images ? (
+                <Button
+                  type="button"
+                  variant="text"
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    handleOpenImages(data);
+                  }}
+                  sx={{ marginBottom: "4px", fontWeight: 600 }}
+                >
+                  Lihat Gambar
+                </Button>
+              ) : (
+                "-"
+              )}
+            </>
           );
         },
       },

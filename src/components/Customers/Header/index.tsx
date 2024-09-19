@@ -15,7 +15,6 @@ import {
   IconShoppingBag,
   IconShoppingCartPlus,
   IconTrash,
-  IconUserEdit,
 } from "@tabler/icons-react";
 
 import Logo from "components/Logo";
@@ -441,28 +440,6 @@ const HeaderLandingCustomer = (): JSX.Element => {
                 >
                   <IconLayoutDashboard />
                   <span>Pergi Ke Dashboard</span>
-                </Button>
-
-                <Button
-                  to="/pelanggan/ubah-profile"
-                  component={Link}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    gap: "5px",
-                    border: "2px solid #4b5563",
-                    borderBottom: "5px solid #4b5563",
-                    borderRight: "5px solid #4b5563",
-                    "&:hover": {
-                      backgroundColor: "#d1d5db",
-                    },
-                  }}
-                  variant="outlined"
-                  color="inherit"
-                >
-                  <IconUserEdit />
-                  <span>Ubah Profile Kamu</span>
                 </Button>
               </Box>
 

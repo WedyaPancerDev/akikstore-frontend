@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import {
-  IconBuildingStore,
+  IconBike,
   IconCashRegister,
   IconCategory,
   IconGiftCard,
@@ -38,7 +38,7 @@ const iconBanner: Record<string, JSX.Element> = {
   "List Produk": <IconShoppingCart style={{ flexShrink: 0 }} />,
   "List Kategori": <IconCategory style={{ flexShrink: 0 }} />,
   "Pemasukan & Pengeluaran": <IconNotes style={{ flexShrink: 0 }} />,
-  "Setting Toko": <IconBuildingStore style={{ flexShrink: 0 }} />,
+  "Setting Kurir": <IconBike style={{ flexShrink: 0 }} />,
   Kupon: <IconGiftCard style={{ flexShrink: 0 }} />,
   "Manajemen Staff": <IconUser style={{ flexShrink: 0 }} />,
 };
