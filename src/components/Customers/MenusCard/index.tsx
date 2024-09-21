@@ -37,6 +37,7 @@ const MenusCardProduct = ({
             left: 0,
             top: 0,
             zIndex: 1,
+            py: "2px",
             fontSize: "12px",
           }}
         >
@@ -47,12 +48,14 @@ const MenusCardProduct = ({
           variant="body1"
           sx={{
             letterSpacing: "-0.03em",
+            py: "2px",
             position: "absolute",
             backgroundColor: "#fff",
             paddingX: 1,
             right: 0,
             top: 0,
             zIndex: 1,
+            fontSize: "12px",
           }}
         >
           <b>{moment(data.created_at).fromNow() ?? "-"}</b>

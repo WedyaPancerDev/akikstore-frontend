@@ -3,6 +3,7 @@ import {
   IconBike,
   IconCashRegister,
   IconMoneybag,
+  IconPlaneArrival,
   IconReport,
   IconReportAnalytics,
   IconShoppingCart,
@@ -20,7 +21,8 @@ interface SlimCardProps {
     | "product"
     | "order"
     | "customer"
-    | "kurir";
+    | "kurir"
+    | "shipping";
   style?: React.CSSProperties;
 }
 
@@ -39,6 +41,7 @@ const SlimCard = ({
     order: <IconCashRegister size={24} />,
     customer: <IconUsers size={24} />,
     kurir: <IconBike size={24} />,
+    shipping: <IconPlaneArrival size={24} />,
   };
 
   return (

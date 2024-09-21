@@ -61,7 +61,7 @@ const formSchema = object().shape({
 
 const transactionTypeList = [
   { value: "manual", label: "Transfer Manual" },
-  { value: "automatic", label: "Pembayaran Online" },
+  // { value: "automatic", label: "Pembayaran Online" },
 ];
 
 const SecondStep = (): JSX.Element => {

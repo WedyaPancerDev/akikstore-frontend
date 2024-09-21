@@ -5,7 +5,9 @@ import { useHistoryTransactionCustomerCount } from "hooks/react-query/useOrder";
 import { type AppState, useSelector } from "store/Store";
 
 const DashboardCustomerModule = (): JSX.Element => {
+  const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+
   const { profile } = useSelector((state: AppState) => state.dashboard);
 
   const { data: transactionHistoryCountData, isLoading } =
@@ -31,7 +33,9 @@ const DashboardCustomerModule = (): JSX.Element => {
       <Box
         marginTop="20px"
         display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
+        gridTemplateColumns={
+          lgUp ? "repeat(3, 1fr)" : mdUp ? "repeat(2, 1fr)" : "1fr"
+        }
         gap="1rem"
       >
         <SlimCard
@@ -53,6 +57,13 @@ const DashboardCustomerModule = (): JSX.Element => {
           title="Total Transaksi Belum Dibayar"
           isLoading={isLoading}
           value={transactionHistoryCountData?.data.unpaid || 0}
+        />
+
+        <SlimCard
+          type="shipping"
+          title="Barang Dikirim"
+          isLoading={isLoading}
+          value={transactionHistoryCountData?.data.shipping || 0}
         />
       </Box>
     </Box>

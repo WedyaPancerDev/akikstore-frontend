@@ -182,6 +182,15 @@ const TransactionModule = (): JSX.Element => {
                 sx={{ textTransform: "uppercase" }}
               />
             ),
+            shipping: (
+              <Chip
+                label="Dikirim"
+                size="small"
+                color="info"
+                variant="filled"
+                sx={{ textTransform: "uppercase" }}
+              />
+            ),
             completed: (
               <Chip
                 label={data.value}
@@ -235,7 +244,7 @@ const TransactionModule = (): JSX.Element => {
         cellRenderer: ({ data }: { data: any }) => {
           return (
             <>
-              {!["completed", "cancelled"].includes(data.status) ? (
+              {!["completed", "cancelled", "shipping"].includes(data.status) ? (
                 <Button
                   type="button"
                   variant="contained"
@@ -253,8 +262,15 @@ const TransactionModule = (): JSX.Element => {
                   Cek Detail Pesanan
                 </Button>
               ) : (
-                <Typography variant="body1" sx={{ fontWeight: 600, marginTop: '10px' }}>
-                  {data.status === "completed" ? "Pembayaran Selesai" : "Pembayaran Ditolak"}
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: 600, marginTop: "10px" }}
+                >
+                  {data.status === "completed"
+                    ? "Pembayaran Selesai"
+                    : data.status === "shipping"
+                    ? "Barang sedang dikirim"
+                    : "Pembayaran Ditolak"}
                 </Typography>
               )}
             </>

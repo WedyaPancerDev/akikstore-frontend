@@ -35,7 +35,7 @@ export const processOrder = async (
 
 export type TransactionHistoryCustomerResponse = {
   order_number: string;
-  status: "pending" | "processing" | "completed" | "cancelled";
+  status: "pending" | "processing" | "completed" | "cancelled" | "shipping";
   total_price: number;
   customer_name: string;
   coupon: string;
@@ -68,6 +68,7 @@ export type TransactionHistoryCustomerCountResponse = {
   unpaid: number;
   paid: number;
   canceled: number;
+  shipping: number;
 };
 
 export const transactionHistoryCustomerCount = async (
@@ -88,6 +89,17 @@ export const uploadTransactionProofing = async (
   payload: UploadTransactionProofingPayload
 ): Promise<ApiResponse<null>> => {
   const result = await axios.post("/file/uploads/proofing", payload);
+
+  return result.data;
+};
+
+export const uploadOrderAlreadyReceived = async (
+  payload: UploadTransactionProofingPayload
+): Promise<ApiResponse<null>> => {
+  const result = await axios.post(
+    "/file/uploads/proofing/already-received",
+    payload
+  );
 
   return result.data;
 };

@@ -137,7 +137,7 @@ const CategoryModule = (): JSX.Element => {
   }, [categoryData?.data]);
 
   const isNotEmptyCategory = Object.values(saveIdCategory).some(
-    (val) => val !== ""
+    (val) => val !== "" && val !== 0
   );
 
   useEffect(() => {

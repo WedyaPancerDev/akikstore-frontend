@@ -166,7 +166,6 @@ const Menus = (): JSX.Element => {
           px: "0.25rem",
           height: "100%",
           minHeight: "70vh",
-          maxHeight: "70vh",
           paddingY: "1rem",
           paddingX: mdUp ? 0 : "1rem",
           paddingRight: "1rem",

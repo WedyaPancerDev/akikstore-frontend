@@ -38,6 +38,7 @@ import CustomTextField from "components/OutlineInput";
 
 import {
   TransactionHistoryCustomerResponse,
+  uploadOrderAlreadyReceived,
   uploadTransactionProofing,
   UploadTransactionProofingPayload,
 } from "services/orders";
@@ -54,68 +55,136 @@ const TableContainer = loadable(() => import("components/TableContainer"), {
   fallback: <p>...</p>,
 });
 
-const formSchema = yup.object().shape({
+const formSchema = {
   order_id: yup.string().required("Order ID is required"),
   customer_id: yup.string().required("Customer ID is required"),
-  file: yup
-    .array()
-    .min(1, "File is required")
-    .test("fileSize", "File size is too large", (value) => {
-      if (!value) return;
+};
 
-      return value?.length > 0 && value[0].size <= 3000000;
-    }),
-});
+type FormType = {
+  order_id: string;
+  customer_id: string;
+  file?: File[];
+  file_receipt?: File[];
+};
 
 const TransactionDetailModule = (): JSX.Element => {
   const queryClient = useQueryClient();
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   const { profile } = useSelector((state: AppState) => state.dashboard);
 
+  const [activeTab, setActiveTab] = useState<"standar" | "receipt">("standar");
+
   const [open, setOpen] = useState<boolean>(false);
   const [orderNumber, setOrderNumber] = useState<string>("");
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmittingReceipt, setIsSubmittingReceipt] =
+    useState<boolean>(false);
+
+  const [isReceipt, setIsReceipt] = useState<boolean>(false);
 
   const { data: transactionHistoryData, isLoading } =
     useHistoryTransactionCustomer(profile?.customers?.id as number);
 
-  const { control, watch, setValue, handleSubmit } = useForm({
+  const newFormSchema = yup.object().shape({
+    ...formSchema,
+    ...(activeTab === "standar"
+      ? {
+          file: yup
+            .array()
+            .min(1, "File is required")
+            .test("fileSize", "File size is too large", (value) => {
+              if (!value) return;
+
+              return value?.length > 0 && value[0].size <= 3000000;
+            }),
+        }
+      : {
+          file_receipt: yup
+            .array()
+            .min(1, "File is required")
+            .test("fileSize", "File size is too large", (value) => {
+              if (!value) return;
+
+              return value?.length > 0 && value[0].size <= 3000000;
+            }),
+        }),
+  });
+
+  const {
+    control,
+    watch,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormType>({
     defaultValues: {
       order_id: "",
       customer_id: "",
       file: [],
+      file_receipt: [],
     },
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(newFormSchema),
   });
 
-  const { file: fileForm } = watch();
+  const form = watch();
 
-  const handleOpenDialog = (orderNumber: string): void => {
-    setOpen((prev) => !prev);
+  const handleOpenDialog = (
+    orderNumber: string,
+    type: "standar" | "receipt"
+  ): void => {
+    if (type === "receipt") {
+      setIsReceipt((prev) => !prev);
+      setActiveTab("receipt");
+    } else if (type === "standar") {
+      setOpen((prev) => !prev);
+      setActiveTab("standar");
+    }
+
     setOrderNumber(orderNumber);
   };
 
-  const handleCloseDialog = (): void => {
-    setOpen((prev) => !prev);
+  const handleCloseDialog = (type: "standar" | "receipt"): void => {
+    if (type === "receipt") {
+      setIsReceipt((prev) => !prev);
+      setActiveTab("standar");
+    } else if (type === "standar") {
+      setOpen((prev) => !prev);
+      setActiveTab("standar");
+    }
+
     setOrderNumber("");
     setValue("file", []);
   };
 
-  const fetchUploadFile = async () => {
+  const fetchUploadFile = async (type: "standar" | "receipt" = "standar") => {
     const formData = new FormData();
 
-    if (!fileForm?.length) {
-      toast.error("File is required");
+    const fileForm = form.file as File[];
+    const fileReceiptForm = form.file_receipt as File[];
+
+    if (type === "standar" && !fileForm?.length) {
+      toast.error("Gambar bukti transfer dibutuhkan");
+
+      return null;
+    } else if (type === "receipt" && !fileReceiptForm?.length) {
+      toast.error("Gambar bukti diterima dibutuhkan");
 
       return null;
     }
 
     try {
-      formData.append("file", fileForm[0] as File);
-      const res = await uploadFile(formData, "customer-proofing");
+      const files = type === "standar" ? fileForm : fileReceiptForm;
+      formData.append("file", files[0] as File);
+
+      const res = await uploadFile(
+        formData,
+        type === "receipt" ? "customer-receipt-order" : "customer-proofing"
+      );
 
       if (res.success) {
         const { url } = res.data as UploadFileResponse;
+
         return url;
       }
 
@@ -144,7 +213,8 @@ const TransactionDetailModule = (): JSX.Element => {
         toast.success(
           "Bukti transfer berhasil diunggah. Tunggu konfirmasi dari admin"
         );
-        handleCloseDialog();
+
+        handleCloseDialog("standar");
         queryClient.refetchQueries({ queryKey: ["history-transaction"] });
         setIsSubmitting(false);
 
@@ -155,6 +225,40 @@ const TransactionDetailModule = (): JSX.Element => {
       toast.error("Oops, Gagal mengunggah bukti transfer");
     } catch (error) {
       setIsSubmitting(false);
+      console.error({ error });
+      toast.error("Oops, Terjadi kesalahan. Coba beberapa saat lagi");
+    }
+  };
+
+  const onSubmitOrderReceipt = async () => {
+    try {
+      setIsSubmittingReceipt(true);
+      const url = await fetchUploadFile("receipt");
+
+      const payload: UploadTransactionProofingPayload = {
+        customer_id: profile?.customers?.id as number,
+        image_proofing: url ?? "",
+        order_id: orderNumber,
+      };
+
+      const result = await uploadOrderAlreadyReceived(payload);
+
+      if (result?.success) {
+        toast.success(
+          "Bukti barang diterima berhasil diunggah. Pesanan telah selesai"
+        );
+
+        handleCloseDialog("receipt");
+        queryClient.refetchQueries({ queryKey: ["history-transaction"] });
+        setIsSubmittingReceipt(false);
+
+        return;
+      }
+
+      setIsSubmittingReceipt(false);
+      toast.error("Oops, Gagal mengunggah bukti barang diterima");
+    } catch (error) {
+      setIsSubmittingReceipt(false);
       console.error({ error });
       toast.error("Oops, Terjadi kesalahan. Coba beberapa saat lagi");
     }
@@ -234,6 +338,15 @@ const TransactionDetailModule = (): JSX.Element => {
                 sx={{ textTransform: "uppercase" }}
               />
             ),
+            shipping: (
+              <Chip
+                label="Dikirim"
+                size="small"
+                color="info"
+                variant="filled"
+                sx={{ textTransform: "uppercase" }}
+              />
+            ),
             completed: (
               <Chip
                 label={data.value}
@@ -253,6 +366,7 @@ const TransactionDetailModule = (): JSX.Element => {
               />
             ),
           };
+
           return <>{customChip[data.value]}</>;
         },
       },
@@ -297,9 +411,19 @@ const TransactionDetailModule = (): JSX.Element => {
                   variant="contained"
                   color="primary"
                   size="small"
-                  onClick={() => handleOpenDialog(data.order_number)}
+                  onClick={() => handleOpenDialog(data.order_number, "standar")}
                 >
                   Selesaikan Pesanan
+                </Button>
+              ) : data.status === "shipping" ? (
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="success"
+                  size="small"
+                  onClick={() => handleOpenDialog(data.order_number, "receipt")}
+                >
+                  Tandai Selesai
                 </Button>
               ) : (
                 <>-</>
@@ -381,7 +505,7 @@ const TransactionDetailModule = (): JSX.Element => {
           maxWidth="sm"
           title="Upload Bukti Transfer"
           handleClose={() => {
-            handleCloseDialog();
+            handleCloseDialog("standar");
           }}
         >
           <DialogContentText>
@@ -482,9 +606,125 @@ const TransactionDetailModule = (): JSX.Element => {
               color="primary"
               size="medium"
               sx={{ marginTop: "20px" }}
-              disabled={isSubmitting || fileForm?.length === 0}
+              disabled={isSubmitting || form.file?.length === 0}
             >
               {isSubmitting ? "Sedang mengunggah..." : "Upload Bukti Transfer"}
+            </Button>
+          </Box>
+        </FormDialog>
+      )}
+
+      {isReceipt && (
+        <FormDialog
+          open={isReceipt}
+          maxWidth="sm"
+          title="Apakah Barang Sudah Diterima?"
+          handleClose={() => {
+            handleCloseDialog("receipt");
+          }}
+        >
+          <DialogContentText>
+            Apakah barang kamu sudah diterima? Jika sudah, silahkan tandai
+            pesanan ini sebagai selesai.
+          </DialogContentText>
+
+          <Box
+            component="form"
+            onSubmit={(e) => {
+              handleSubmit(onSubmitOrderReceipt)(e);
+            }}
+            sx={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
+          >
+            <Controller
+              name="order_id"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Box className="form-control">
+                    <CustomFormLabel htmlFor="order_id">
+                      Order ID
+                    </CustomFormLabel>
+
+                    <CustomTextField
+                      {...field}
+                      fullWidth
+                      type="text"
+                      id="order_id"
+                      readOnly
+                      disabled
+                      sx={{ fontWeight: 600, marginBottom: "4px" }}
+                    />
+                  </Box>
+                );
+              }}
+            />
+
+            <Controller
+              name="customer_id"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Box className="form-control">
+                    <CustomFormLabel htmlFor="customer_id">
+                      Nama Pelanggan
+                    </CustomFormLabel>
+
+                    <CustomTextField
+                      {...field}
+                      fullWidth
+                      type="text"
+                      id="customer_id"
+                      readOnly
+                      disabled
+                      sx={{ fontWeight: 600, marginBottom: "4px" }}
+                    />
+                  </Box>
+                );
+              }}
+            />
+
+            <Controller
+              name="file_receipt"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Box className="form-control">
+                    <CustomFormLabel htmlFor="image_proofing">
+                      Bukti Barang Telah Diterima
+                    </CustomFormLabel>
+
+                    <FilePond
+                      name="file"
+                      disabled={isSubmitting}
+                      acceptedFileTypes={[
+                        "image/jpeg",
+                        "image/png",
+                        "image/jpg",
+                      ]}
+                      files={field.value as unknown as File[]}
+                      onupdatefiles={(fileItems) =>
+                        field.onChange(
+                          fileItems.map((fileItem) => fileItem.file) as File[]
+                        )
+                      }
+                      labelIdle="Upload bukti barang diterima, maksimal 3MB"
+                      credits={false}
+                      maxFileSize="3MB"
+                    />
+                  </Box>
+                );
+              }}
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              size="medium"
+              sx={{ marginTop: "20px" }}
+              disabled={isSubmittingReceipt || !form.file_receipt?.length}
+            >
+              {isSubmittingReceipt ? "Sedang diproses..." : "Tandai Selesai"}
             </Button>
           </Box>
         </FormDialog>
