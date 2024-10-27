@@ -3,7 +3,10 @@ import Select, {
   ControlProps,
   DropdownIndicatorProps,
 } from "react-select";
-import { object, string } from "yup";
+import {
+  object,
+  // string
+} from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { Box, Button, Theme, Typography, useMediaQuery } from "@mui/material";
@@ -16,20 +19,26 @@ import { GetShippingCostResponse } from "services/shippingCost";
 import { IconBike, IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import CustomSelect from "components/CustomSelect";
 import useCart, { NewPayload } from "hooks/useCart";
-import { useEffect, useState } from "react";
-import CustomTextField from "components/OutlineInput";
+import {
+  useEffect,
+  // useState
+} from "react";
+// import CustomTextField from "components/OutlineInput";
 import { ReactSelectValueProps } from "types";
 import CustomFormLabel from "components/FormLabel";
-import BannerTag from "components/BannerTag";
-import { useGetCouponFirst } from "hooks/react-query/useCoupon";
-import toast from "react-hot-toast";
-import { GetCouponResponse, validateCoupon } from "services/coupon";
+// import BannerTag from "components/BannerTag";
+// import { useGetCouponFirst } from "hooks/react-query/useCoupon";
+// import toast from "react-hot-toast";
+// import {
+// GetCouponResponse,
+// validateCoupon
+// } from "services/coupon";
 import useCookie from "hooks/useCookie";
 
-type FormatSaveCoupon = {
-  coupon: string;
-  coupon_id: number;
-};
+// type FormatSaveCoupon = {
+//   coupon: string;
+//   coupon_id: number;
+// };
 
 const Control = ({ children, ...props }: ControlProps<false>): any => {
   return (
@@ -54,14 +63,14 @@ const DropdownIndicator = (props: DropdownIndicatorProps<true>): any => {
 const formSchema = object().shape({
   shippingCost: object().required("Kurir Pengiriman harus diisi"),
   transactionType: object().required("Metode Pembayaran harus diisi"),
-  coupon: string()
-    .nullable()
-    .matches(/^[A-Z0-9]*$/, "Kupon hanya boleh berisi huruf kapital dan angka"),
+  // coupon: string()
+  //   .nullable()
+  //   .matches(/^[A-Z0-9]*$/, "Kupon hanya boleh berisi huruf kapital dan angka"),
 });
 
 const transactionTypeList = [
   { value: "manual", label: "Transfer Manual" },
-  // { value: "automatic", label: "Pembayaran Online" },
+  { value: "automatic", label: "Pembayaran Online" },
 ];
 
 const SecondStep = (): JSX.Element => {
@@ -70,40 +79,44 @@ const SecondStep = (): JSX.Element => {
 
   const { savePayload } = useCart();
 
-  const [isProcessCoupon, setIsProcessCoupon] = useState<boolean>(false);
-  const [saveValidateCouponId, setSaveValidateCouponId] =
-    useState<FormatSaveCoupon | null>(null);
+  // const [isProcessCoupon, setIsProcessCoupon] = useState<boolean>(false);
+  // const [saveValidateCouponId, setSaveValidateCouponId] =
+  //   useState<FormatSaveCoupon | null>(null);
 
   const { data: shippingCostData, isLoading: isLoadingShippingCost } =
     useShippingCost();
-  const { data: couponData, isLoading: isLoadingCoupon } = useGetCouponFirst();
+  // const { data: couponData, isLoading: isLoadingCoupon } = useGetCouponFirst();
   const { getFromLocalStorage } = useCookie();
 
   const secureValue = getFromLocalStorage(
     "transactions"
   ) as unknown as NewPayload;
 
-  const couponItem = couponData?.data;
+  // const couponItem = couponData?.data;
 
   const { control, watch, setValue } = useForm({
     defaultValues: {
       shippingCost: "",
       transactionType: "",
-      coupon: "",
+      // coupon: "",
     },
     resolver: yupResolver(formSchema),
   });
 
-  const { shippingCost, transactionType, coupon: couponForm } = watch();
+  const {
+    shippingCost,
+    transactionType,
+    // coupon: couponForm
+  } = watch();
 
   const handleNextStep = (): void => {
     savePayload({
       shippingCost: shippingCost as unknown as GetShippingCostResponse,
       transaction_type: (transactionType as unknown as ReactSelectValueProps)
         ?.value,
-      coupon: (couponItem?.code === saveValidateCouponId?.coupon
-        ? couponItem
-        : null) as unknown as GetCouponResponse | null,
+      // coupon: (couponItem?.code === saveValidateCouponId?.coupon
+      //   ? couponItem
+      //   : null) as unknown as GetCouponResponse | null,
     });
 
     dispatch(setNextStep());
@@ -113,37 +126,37 @@ const SecondStep = (): JSX.Element => {
     dispatch(setPrevStep());
   };
 
-  const handleValidateCoupon = async (): Promise<void> => {
-    const coupon = watch("coupon");
-    if (!coupon) return;
+  // const handleValidateCoupon = async (): Promise<void> => {
+  //   const coupon = watch("coupon");
+  //   if (!coupon) return;
 
-    if (saveValidateCouponId?.coupon === coupon) {
-      toast.error("Kode kupon sudah diterapkan");
+  //   if (saveValidateCouponId?.coupon === coupon) {
+  //     toast.error("Kode kupon sudah diterapkan");
 
-      return;
-    }
+  //     return;
+  //   }
 
-    try {
-      setIsProcessCoupon(true);
+  //   try {
+  //     setIsProcessCoupon(true);
 
-      const result = await validateCoupon(coupon);
+  //     const result = await validateCoupon(coupon);
 
-      if (result?.success && couponItem) {
-        setSaveValidateCouponId({
-          coupon: couponItem?.code,
-          coupon_id: couponItem?.id,
-        });
+  //     if (result?.success && couponItem) {
+  //       setSaveValidateCouponId({
+  //         coupon: couponItem?.code,
+  //         coupon_id: couponItem?.id,
+  //       });
 
-        toast.success("Kode kupon berhasil diterapkan");
-      }
+  //       toast.success("Kode kupon berhasil diterapkan");
+  //     }
 
-      setIsProcessCoupon(false);
-    } catch (error) {
-      console.error({ error });
-      setIsProcessCoupon(false);
-      toast.error("Kode kupon yang kamu masukkan tidak valid");
-    }
-  };
+  //     setIsProcessCoupon(false);
+  //   } catch (error) {
+  //     console.error({ error });
+  //     setIsProcessCoupon(false);
+  //     toast.error("Kode kupon yang kamu masukkan tidak valid");
+  //   }
+  // };
 
   useEffect(() => {
     if (secureValue) {
@@ -154,7 +167,7 @@ const SecondStep = (): JSX.Element => {
           (item) => item.value === secureValue.transaction_type
         ) as any
       );
-      setValue("coupon", secureValue.coupon?.code ?? "");
+      // setValue("coupon", secureValue.coupon?.code ?? "");
     }
   }, []);
 
@@ -168,7 +181,7 @@ const SecondStep = (): JSX.Element => {
         flexDirection="column"
         sx={{ minHeight: "65vh", height: "100%", maxHeight: "65vh" }}
       >
-        {!isLoadingCoupon && <BannerTag data={couponItem} type="landing" />}
+        {/* {!isLoadingCoupon && <BannerTag data={couponItem} type="landing" />} */}
 
         <Box>
           <Controller
@@ -250,7 +263,7 @@ const SecondStep = (): JSX.Element => {
             }}
           />
 
-          <Controller
+          {/* <Controller
             name="coupon"
             control={control}
             render={({ field, fieldState: { error } }) => {
@@ -310,7 +323,7 @@ const SecondStep = (): JSX.Element => {
                 </Box>
               );
             }}
-          />
+          /> */}
         </Box>
       </Box>
 

@@ -213,7 +213,7 @@ const AuthRegister = (): JSX.Element => {
                     autoComplete="name"
                     sx={{ fontWeight: 600, marginBottom: "4px" }}
                     id="fullname"
-                    placeholder="contoh: Patriot Santosa"
+                    placeholder="contoh: Made Akik"
                     disabled={isSubmitting}
                     type="text"
                   />

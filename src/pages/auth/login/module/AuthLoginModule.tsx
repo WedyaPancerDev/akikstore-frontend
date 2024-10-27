@@ -194,7 +194,7 @@ const AuthLogin = (): JSX.Element => {
                     sx={{ fontWeight: 600, marginBottom: "4px" }}
                     autoComplete="email"
                     disabled={isSubmitting}
-                    placeholder="Contoh: made@akikstore.com"
+                    placeholder=""
                   />
 
                   {error && (
@@ -242,7 +242,7 @@ const AuthLogin = (): JSX.Element => {
                       </IconButton>
                     }
                     id="password"
-                    placeholder="****"
+                    placeholder=""
                     disabled={isSubmitting}
                     type={showPassword ? "text" : "password"}
                   />

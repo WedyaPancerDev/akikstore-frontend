@@ -5,7 +5,7 @@ import {
   IconShoppingCart,
   IconUsers,
   IconCashRegister,
-  IconGiftCard,
+  // IconGiftCard,
   IconCategory,
   IconBike,
 } from "@tabler/icons-react";
@@ -65,13 +65,13 @@ export const AdminMenuItems: MenuitemsType[] = [
     href: "/staff/pemasukan-dan-pengeluaran",
     chipColor: "secondary",
   },
-  {
-    id: nanoid(10),
-    title: "Kupon",
-    icon: IconGiftCard,
-    href: "/staff/kupon",
-    chipColor: "secondary",
-  },
+  // {
+  //   id: nanoid(10),
+  //   title: "Kupon",
+  //   icon: IconGiftCard,
+  //   href: "/staff/kupon",
+  //   chipColor: "secondary",
+  // },
   {
     id: nanoid(10),
     title: "Setting Kurir",

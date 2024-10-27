@@ -290,7 +290,7 @@ const TambahProduk = (): JSX.Element => {
                 return (
                   <Box className="form-control">
                     <CustomFormLabel htmlFor="image_proofing">
-                      Bukti Transfer
+                      Upload Gambar Produk
                     </CustomFormLabel>
 
                     <FilePond

@@ -152,7 +152,7 @@ const Menus = (): JSX.Element => {
                     px: "10px",
                     userSelect: "none",
                   }}
-                  placeholder="CARI AKIK FAVORIT KAMU ..."
+                  placeholder="Lakukan pencarian..."
                 />
               </Box>
             );

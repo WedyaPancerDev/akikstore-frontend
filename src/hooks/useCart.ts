@@ -16,7 +16,7 @@ export type NewPayload = {
   person?: number;
   transaction_type: string;
   shippingCost: GetShippingCostResponse | null;
-  coupon: GetCouponResponse | null;
+  coupon?: GetCouponResponse | null;
   products?: Array<{
     id: number;
     stock: number;

@@ -6,6 +6,8 @@ import { ThemeSettings } from "theme/Theme";
 
 import routers from "routes/Routes";
 
+import "./theme/global.css"
+
 function App() {
   const theme = ThemeSettings();
 

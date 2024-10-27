@@ -324,7 +324,7 @@ const EditProduk = (): JSX.Element => {
                   return (
                     <Box className="form-control">
                       <CustomFormLabel htmlFor="image_proofing">
-                        Bukti Transfer
+                        Gambar Produk
                       </CustomFormLabel>
 
                       <PhotoProvider>
