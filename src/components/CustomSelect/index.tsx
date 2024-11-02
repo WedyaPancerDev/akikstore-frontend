@@ -1,5 +1,4 @@
 import { Box, styled, Typography } from "@mui/material";
-import clsx from "clsx";
 import { FC } from "react";
 import { OptionProps } from "react-select";
 import { type GetShippingCostResponse } from "services/shippingCost";
@@ -58,10 +57,6 @@ const CustomSelect: FC<Props> = (props) => {
           fontWeight: 600,
           color: "#9ca3af",
         }}
-        className={clsx(
-          isSelected ? "text-white" : "text-main-grayscale-500",
-          "text-xs font-vr-demi-bold"
-        )}
       >
         Wilayah:{" "}
         <b style={{ color: "#1f2937" }}>

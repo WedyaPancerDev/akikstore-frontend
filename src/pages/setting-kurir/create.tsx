@@ -1,10 +1,6 @@
 import * as yup from "yup";
-import { useCallback, useEffect, useState } from "react";
-import Select, {
-  components,
-  ControlProps,
-  DropdownIndicatorProps,
-} from "react-select";
+import { useState } from "react";
+import Select from "react-select";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { Box, Button, Theme, Typography, useMediaQuery } from "@mui/material";
@@ -19,10 +15,7 @@ import { getCustomStyle } from "utils/react-select";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  CourierCostResponse,
-  CourierPayload,
   createShippingCost,
-  getCost,
   RajaOngkirCityResponse,
   RajaOngkirProvinceResponse,
   ShippingCostPayload,
@@ -33,8 +26,6 @@ import {
   useShippingProvince,
 } from "hooks/react-query/useShippingCost";
 import toast from "react-hot-toast";
-import { IconBike, IconChevronDown, IconChevronUp } from "@tabler/icons-react";
-import CustomSelectShippingCost from "components/CustomSelect/CustomSelectShippingCost";
 
 const formSchema = yup.object().shape({
   name: yup.object().required("Nama kurir diperlukan"),
@@ -44,48 +35,24 @@ const formSchema = yup.object().shape({
     .object()
     .required("Provinsi tujuan pengiriman diperlukan"),
   city_destination: yup.object().required("Kota tujuan pengiriman diperlukan"),
-  cost: yup.object().required("Harga diperlukan"),
+  cost: yup
+    .string()
+    .matches(/\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/gi, "Format harga tidak valid")
+    .required("Harga diperlukan"),
   weight: yup
     .string()
     .matches(/\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/gi, "Format berat tidak valid")
     .required("Berat diperlukan"),
 });
 
-const Control = ({ children, ...props }: ControlProps<false>): any => {
-  return (
-    <components.Control {...props}>
-      <IconBike />
-      {children}
-    </components.Control>
-  );
-};
-
-const DropdownIndicator = (props: DropdownIndicatorProps<true>): any => {
-  const {
-    selectProps: { menuIsOpen },
-  } = props;
-  return (
-    <components.DropdownIndicator {...props}>
-      {menuIsOpen ? <IconChevronDown /> : <IconChevronUp />}
-    </components.DropdownIndicator>
-  );
-};
-
 const CreateSettingKurir = (): JSX.Element => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
 
-  const [isChecking, setIsChecking] = useState<boolean>(false);
-  const [isSubmittingCheckCost, setIsSubmittingCheckCost] =
-    useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const [shippingCostData, setShippingCostData] = useState<
-    CourierCostResponse[]
-  >([]);
-
-  const { control, watch, handleSubmit, setValue, getValues } = useForm({
+  const { control, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
       area: "",
       city: "",
@@ -115,14 +82,6 @@ const CreateSettingKurir = (): JSX.Element => {
   const isDisabled =
     isSubmitting || Object.values(form).some((item) => item === "");
 
-  const isDisabledCheckCost =
-    !form.name ||
-    !form.area ||
-    !form.city ||
-    !form.weight ||
-    form.weight.length < 4 ||
-    !form.area_destination ||
-    !form.city_destination;
   // ** END VARIABLE
 
   // ** HOOKS
@@ -142,46 +101,6 @@ const CreateSettingKurir = (): JSX.Element => {
   );
   // ** END HOOKS
 
-  const getPayloadCourier = (): CourierPayload => {
-    const { city, city_destination, weight, name } = getValues();
-
-    return {
-      origin: (city as RajaOngkirCityResponse).city_id || "",
-      destination: (city_destination as RajaOngkirCityResponse).city_id || "",
-      weight: weight !== undefined ? Number(weight) : "",
-      courier: (name as unknown as ReactSelectValueProps).value,
-    };
-  };
-
-  const handleCheckCourierCost = useCallback(async () => {
-    const payload = getPayloadCourier();
-
-    try {
-      setIsSubmittingCheckCost(true);
-
-      const result = await getCost(payload);
-
-      if (result.success) {
-        const data = result.data;
-
-        setShippingCostData(data);
-        setIsChecking((prev) => !prev);
-        toast.success("Berhasil mengecek ongkir");
-      }
-
-      setIsSubmittingCheckCost(false);
-    } catch (error) {
-      console.error({ error });
-      setIsChecking((prev) => !prev);
-      setIsSubmittingCheckCost(false);
-      toast.error("Gagal mengecek ongkir. Rute pengiriman tidak ditemukan");
-    }
-  }, []);
-
-  const checkingCourierCost = async () => {
-    setIsChecking((prev) => !prev);
-  };
-
   const resetForm = () => {
     setValue("area", "");
     setValue("city", "");
@@ -200,7 +119,7 @@ const CreateSettingKurir = (): JSX.Element => {
         .province,
       city_destination: (form.city_destination as RajaOngkirCityResponse)
         .city_name,
-      cost: Number((form.cost as unknown as CourierCostResponse)?.cost),
+      cost: Number(form.cost),
       name: (form.name as ReactSelectValueProps).value,
     };
 
@@ -224,12 +143,6 @@ const CreateSettingKurir = (): JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    if (isChecking) {
-      handleCheckCourierCost();
-    }
-  }, [isChecking]);
-
   return (
     <PageContainer title="Kurir Tambah - AKIKSTORE" description="#">
       <Box
@@ -248,27 +161,6 @@ const CreateSettingKurir = (): JSX.Element => {
             mb={1}
           >
             Tambah Kurir Baru
-          </Typography>
-          <Typography
-            variant="body1"
-            fontSize="16px"
-            fontWeight={400}
-            color="text.secondary"
-            mb={3}
-            lineHeight={1.5}
-          >
-            List Kurir Pengiriman diambil dari{" "}
-            <a
-              href="https://rajaongkir.com"
-              target="_blank"
-              style={{ fontWeight: 600 }}
-            >
-              RajaOngkir
-            </a>
-            .
-            <br />
-            Sehingga informasi mengenai kurir pengiriman akan selalu up to date
-            dari Pusat.
           </Typography>
         </Box>
 
@@ -544,44 +436,26 @@ const CreateSettingKurir = (): JSX.Element => {
                     Harga Pengiriman (Rp)
                   </CustomFormLabel>
 
-                  <Box display="flex" alignItems="center">
-                    <Box flex={1} marginRight={2}>
-                      <Select<CourierCostResponse>
-                        {...(field as any)}
-                        inputId="cost"
-                        classNamePrefix="select"
-                        getOptionLabel={(option) => option.name}
-                        getOptionValue={(option) => option.name}
-                        options={shippingCostData || []}
-                        components={{
-                          Control,
-                          DropdownIndicator,
-                          Option: CustomSelectShippingCost,
-                        }}
-                        menuPlacement="top"
-                        isDisabled={isChecking}
-                        isLoading={isChecking || isSubmittingCheckCost}
-                        placeholder="Pilih Harga Pengiriman"
-                        styles={getCustomStyle(error)}
-                      />
-                    </Box>
+                  <CustomTextField
+                    {...field}
+                    fullWidth
+                    sx={{ fontWeight: 600, marginBottom: "4px" }}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const newValue = e.target.value;
 
-                    <Button
-                      type="button"
-                      size="large"
-                      color="primary"
-                      variant="contained"
-                      sx={{
-                        fontWeight: 600,
-                        textTransform: "capitalize",
-                        fontSize: 14,
-                      }}
-                      disabled={isDisabledCheckCost || isChecking}
-                      onClick={checkingCourierCost}
-                    >
-                      Cek Ongkir
-                    </Button>
-                  </Box>
+                      if (!/[^0-9]/.test(newValue)) {
+                        field.onChange(newValue.replace(/[^0-9]/, ""));
+                      }
+                    }}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
+                    value={field.value}
+                    id="weight"
+                    placeholder="contoh: 15000"
+                    disabled={isSubmitting}
+                    type="text"
+                  />
 
                   {error && (
                     <Typography

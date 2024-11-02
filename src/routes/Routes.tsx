@@ -23,6 +23,7 @@ const EditTambah = loadable(() => import("pages/produk/edit"));
 
 const Kategori = loadable(() => import("pages/category"));
 const Transaksi = loadable(() => import("pages/transaksi"));
+const TransaksiCreate = loadable(() => import("pages/transaksi/create"));
 
 const SettingKurir = loadable(() => import("pages/setting-kurir"));
 const SettingKurirTambah = loadable(() => import("pages/setting-kurir/create"));
@@ -67,6 +68,7 @@ const routers = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "pelanggan-terdaftar", element: <Pelanggan /> },
       { path: "transaksi", element: <Transaksi /> },
+      { path: "transaksi/tambah", element: <TransaksiCreate /> },
 
       { path: "list-produk", element: <Produk /> },
       { path: "list-produk/tambah", element: <ProdukTambah /> },

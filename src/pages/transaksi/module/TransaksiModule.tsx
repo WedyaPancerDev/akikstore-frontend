@@ -28,6 +28,7 @@ import {
   UpdateStatusTransactionPayload,
 } from "services/orders";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const TableContainer = loadable(() => import("components/TableContainer"), {
   fallback: <p>...</p>,
@@ -41,6 +42,8 @@ type TemporaryOrderNumber = {
 };
 
 const TransactionModule = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const queryClient = useQueryClient();
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
@@ -317,6 +320,20 @@ const TransactionModule = (): JSX.Element => {
         marginX: mdUp ? 0 : "1rem",
       }}
     >
+      <Box marginBottom="20px">
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          sx={{ fontWeight: 600 }}
+          onClick={() => {
+            navigate("/staff/transaksi/tambah");
+          }}
+        >
+          Tambah Transaksi
+        </Button>
+      </Box>
+
       <TableContainer
         rows={rows || []}
         columns={columns}
