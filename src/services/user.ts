@@ -2,6 +2,7 @@ import axios from "utils/axios";
 import type { ApiResponse } from "types/response";
 
 export type CustomerResponse = {
+  id: number;
   fullname: string;
   phone: string;
   address: string;

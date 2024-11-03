@@ -10,21 +10,21 @@ import CustomFormLabel from "components/FormLabel";
 // import CustomTextField from "components/TextField";
 import PageContainer from "components/Container/PageContainer";
 
-import { ReactSelectValueProps } from "types";
 import { getCustomStyle } from "utils/react-select";
 
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  createShippingCost,
-  GetShippingCostResponse,
-} from "services/shippingCost";
+import { GetShippingCostResponse } from "services/shippingCost";
 import { nanoid } from "nanoid";
 import { useGetCustomers } from "hooks/react-query/useCustomer";
 import { useShippingCost } from "hooks/react-query/useShippingCost";
 
 import OutlinedButton from "components/Button/ButtonOutline";
-import { IconPlus } from "@tabler/icons-react";
+import CustomTextField from "components/OutlineInput";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { useProducts } from "hooks/react-query/useProduct";
+import { CustomerResponse } from "services/user";
+import { processOrder, ProcessOrderPayload } from "services/orders";
 
 interface EmptyOptionProps {
   cuid: string;
@@ -56,11 +56,6 @@ const formSchemaNew = yup.object().shape({
   courier: yup.object().required("Kurir pengiriman diperlukan"),
 });
 
-const transactionTypeList = [
-  { value: "manual", label: "Transfer Manual" },
-  // { value: "automatic", label: "Pembayaran Online" },
-];
-
 const getEmptyOption = (index?: number): EmptyOptionProps => {
   return {
     cuid: `${nanoid()}-${index}`,
@@ -82,10 +77,11 @@ const CreateSettingKurir = (): JSX.Element => {
     useGetCustomers();
   const { data: shippingCostData, isLoading: isLoadingShippingCost } =
     useShippingCost();
+  const { data: productData, isLoading: isLoadingProduct } = useProducts();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const { control, watch, handleSubmit } = useForm({
+  const { control, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
       courier: "",
       customer: "",
@@ -131,33 +127,54 @@ const CreateSettingKurir = (): JSX.Element => {
     remove(index);
   };
 
-  const resetForm = () => {};
+  const resetForm = () => {
+    setValue("courier", "");
+    setValue("customer", "");
+    setValue("products", []);
+  };
+
+  const getPayload = (): ProcessOrderPayload => {
+    return {
+      customer_id: (form.customer as unknown as CustomerResponse)?.id,
+      coupon_id: null,
+      purchase_items:
+        form.products?.map((product) => ({
+          product_id: (product.product_id as any)?.id,
+          quantity:
+            typeof product.quantity === "string" ? +product.quantity : 0,
+          shipping_cost_id: (form.courier as unknown as GetShippingCostResponse)
+            ?.id,
+        })) || [],
+    };
+  };
 
   const onSubmit = async () => {
-    const payload = {};
+    const payload = getPayload();
 
     try {
       setIsSubmitting(true);
 
-      const result = await createShippingCost(payload);
+      const type = "offline";
+      const result = await processOrder(payload, type);
 
       if (result.success) {
         resetForm();
-        navigate("/staff/setting-kurir", { replace: true });
-        queryClient.refetchQueries({ queryKey: ["shipping-cost"] });
-        toast.success("Berhasil menambahkan kurir pengiriman");
+
+        navigate("/staff/transaksi", { replace: true });
+        queryClient.refetchQueries({ queryKey: ["processed-transactions"] });
+        toast.success("Berhasil menambahkan transaksi manual");
       }
 
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);
       console.error({ error });
-      toast.error("Gagal menambahkan kurir pengiriman");
+      toast.error("Gagal menambahkan transaksi manual");
     }
   };
 
   return (
-    <PageContainer title="Kurir Tambah - ANTIKSTORE" description="#">
+    <PageContainer title="Transaksi Manual - ANTIKSTORE" description="#">
       <Box
         component="section"
         sx={{
@@ -276,48 +293,154 @@ const CreateSettingKurir = (): JSX.Element => {
                 gridColumn: mdUp ? "span 2 / span 2" : "span 1 / span 1",
               }}
             >
-              {productSection?.map((product, index) => {
+              {productSection?.map((_product, index) => {
                 const isLast = index === fields.length - 1;
 
                 return (
-                  <Box key={index} ref={isLast ? lastMemberRef : null}>
-                    <Controller
-                      name={`products.${index}.product_id`}
-                      control={control}
-                      render={({ field, fieldState: { error } }) => {
-                        return (
-                          <Box className="form-control">
-                            <CustomFormLabel
-                              htmlFor={`products.${index}.product_id`}
-                            >
-                              Tentukan Produk <span>*</span>
-                            </CustomFormLabel>
-
-                            <Select<ReactSelectValueProps>
-                              {...(field as any)}
-                              inputId={`products.${index}.product_id`}
-                              classNamePrefix="select"
-                              getOptionLabel={(option) => option.label}
-                              getOptionValue={(option) => option.value}
-                              placeholder="Pilih Produk"
-                              options={[]}
-                              styles={getCustomStyle(error)}
-                            />
-
-                            {error && (
-                              <Typography
-                                variant="caption"
-                                fontSize="12px"
-                                fontWeight={600}
-                                color="red"
+                  <Box
+                    key={index}
+                    ref={isLast ? lastMemberRef : null}
+                    sx={{
+                      marginBottom: 4,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    <Box
+                      sx={{ display: "flex", flexDirection: "column", flex: 1 }}
+                    >
+                      <Controller
+                        name={`products.${index}.product_id`}
+                        control={control}
+                        render={({ field, fieldState: { error } }) => {
+                          return (
+                            <Box className="form-control">
+                              <CustomFormLabel
+                                htmlFor={`products.${index}.product_id`}
                               >
-                                {error.message}
-                              </Typography>
-                            )}
-                          </Box>
-                        );
+                                Tentukan Produk <span>*</span> {index + 1}
+                              </CustomFormLabel>
+
+                              <Select<any>
+                                {...(field as any)}
+                                inputId={`products.${index}.product_id`}
+                                classNamePrefix="select"
+                                getOptionLabel={(option) => option.title}
+                                getOptionValue={(option) => option.id}
+                                placeholder="Pilih Produk"
+                                options={productData?.data || []}
+                                isLoading={isLoadingProduct}
+                                isDisabled={isLoadingProduct}
+                                styles={getCustomStyle(error)}
+                              />
+
+                              {error && (
+                                <Typography
+                                  variant="caption"
+                                  fontSize="12px"
+                                  fontWeight={600}
+                                  color="red"
+                                >
+                                  {error.message}
+                                </Typography>
+                              )}
+                            </Box>
+                          );
+                        }}
+                      />
+
+                      <Controller
+                        name={`products.${index}.quantity`}
+                        control={control}
+                        render={({ field, fieldState: { error } }) => {
+                          const { onChange, value, ...rest } = field;
+
+                          return (
+                            <Box className="form-control">
+                              <CustomFormLabel
+                                htmlFor={`products.${index}.quantity`}
+                              >
+                                Masukan Quantity <span>*</span> {index + 1}
+                              </CustomFormLabel>
+
+                              <CustomTextField
+                                {...rest}
+                                fullWidth
+                                autoComplete="tel"
+                                sx={{ fontWeight: 600, marginBottom: "4px" }}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const value = e.target.value;
+
+                                  if (!/[^0-9]/.test(value)) {
+                                    onChange(value.replace(/[^0-9]/, ""));
+                                  }
+                                }}
+                                inputProps={{
+                                  maxLength: 3,
+                                }}
+                                value={value}
+                                id={`products.${index}.quantity`}
+                                placeholder="contoh: 1"
+                                disabled={isSubmitting}
+                                type="text"
+                              />
+
+                              {error && (
+                                <Typography
+                                  variant="caption"
+                                  fontSize="12px"
+                                  fontWeight={600}
+                                  color="red"
+                                >
+                                  {error.message}
+                                </Typography>
+                              )}
+                            </Box>
+                          );
+                        }}
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        borderRadius: 0,
+                        alignSelf: "flex-start",
+                        marginTop: "12px",
                       }}
-                    />
+                    >
+                      <OutlinedButton
+                        fullWidth
+                        size="small"
+                        type="button"
+                        color="inherit"
+                        onClick={() => {
+                          handleDeleteSection(index);
+                        }}
+                        disabled={isSubmitting}
+                        sx={{
+                          paddingY: "8px",
+                          marginTop: "2rem",
+                          textTransform: "uppercase",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#b91c1c",
+                          fontWeight: 600,
+                          color: "#FFF",
+                          gap: "4px",
+
+                          "&:hover": {
+                            backgroundColor: "#dc2626",
+                            color: "#FFF",
+                          },
+                        }}
+                      >
+                        <IconTrash size={16} style={{ flexShrink: 0 }} />
+                        <span>Hapus</span>
+                      </OutlinedButton>
+                    </Box>
                   </Box>
                 );
               })}
@@ -387,7 +510,7 @@ const CreateSettingKurir = (): JSX.Element => {
                 fontSize: 14,
               }}
               onClick={() => {
-                navigate("/staff/setting-kurir", { replace: true });
+                navigate("/staff/transaksi", { replace: true });
               }}
             >
               Kembali

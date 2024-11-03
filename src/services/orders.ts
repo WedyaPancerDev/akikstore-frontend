@@ -26,7 +26,7 @@ export type ProcessOrderPayload = {
 
 export const processOrder = async (
   payload: ProcessOrderPayload,
-  type: "manual" | "automatic"
+  type: "manual" | "automatic" | "offline"
 ): Promise<ApiResponse<ProcessOrderResponse>> => {
   const result = await axios.post(`/order/new-transaction/${type}`, payload);
 
