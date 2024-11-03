@@ -154,7 +154,7 @@ const CreateKupon = (): JSX.Element => {
   };
 
   return (
-    <PageContainer title="Kupon Tambah - AKIKSTORE" description="#">
+    <PageContainer title="Kupon Tambah - ANTIKSTORE" description="#">
       <Box
         component="section"
         sx={{
@@ -202,7 +202,7 @@ const CreateKupon = (): JSX.Element => {
                     }}
                     inputProps={{ maxLength: 10 }}
                     sx={{ fontWeight: 600, marginBottom: "4px" }}
-                    placeholder="Contoh: AKIKSTORE"
+                    placeholder="Contoh: ANTIKSTORE"
                   />
 
                   {error ? (

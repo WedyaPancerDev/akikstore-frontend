@@ -11,13 +11,13 @@ const Dashboard = (): JSX.Element => {
   const dashboard = dashboardData?.data;
 
   return (
-    <PageContainer title="Dashboard - AKIKSTORE" description="#">
+    <PageContainer title="Dashboard - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{
           title: "Dashboard",
           description:
-            "Selamat datang di dashboard AKIKSTORE. Di sini Anda dapat mengelola produk, pesanan, pelanggan, dan lainnya.",
+            "Selamat datang di dashboard ANTIKSTORE. Di sini Anda dapat mengelola produk, pesanan, pelanggan, dan lainnya.",
         }}
       />
       <Box

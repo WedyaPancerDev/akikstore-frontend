@@ -7,7 +7,7 @@ import ProdukModule from "./module/ProdukModule";
 
 const Produk = (): JSX.Element => {
   return (
-    <PageContainer title="Produk - AKIKSTORE" description="#">
+    <PageContainer title="Produk - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

@@ -5,7 +5,7 @@ import PelangganModule from "./module/PelangganModule";
 
 const Pelanggan = (): JSX.Element => {
   return (
-    <PageContainer title="Pelanggan - AKIKSTORE" description="#">
+    <PageContainer title="Pelanggan - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

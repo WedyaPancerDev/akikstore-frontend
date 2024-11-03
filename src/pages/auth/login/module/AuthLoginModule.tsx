@@ -288,7 +288,7 @@ const AuthLogin = (): JSX.Element => {
 
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="caption" fontWeight={600}>
-          @{new Date().getFullYear()} - AKIKSTORE
+          @{new Date().getFullYear()} - ANTIKSTORE
         </Typography>
 
         <Typography variant="caption" fontWeight={600}>

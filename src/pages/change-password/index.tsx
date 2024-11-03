@@ -5,7 +5,7 @@ import ChangePasswordModule from "./module/ChangePasswordModule";
 
 const ChangePassword = (): JSX.Element => {
   return (
-    <PageContainer title="AKIKSTORE - Ubah Password" description="#">
+    <PageContainer title="ANTIKSTORE - Ubah Password" description="#">
       <Box component="div" className="page-container">
         <ChangePasswordModule />
       </Box>

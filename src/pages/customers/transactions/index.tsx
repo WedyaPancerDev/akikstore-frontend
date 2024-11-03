@@ -5,7 +5,7 @@ import PageContainer from "components/Container/PageContainer";
 
 const Transactions = () => {
   return (
-    <PageContainer title="AKIKSTORE - Pembayaran" description="#">
+    <PageContainer title="ANTIKSTORE - Pembayaran" description="#">
       <Box sx={{ marginTop: "20px" }}>
         <TransactionModule />
       </Box>

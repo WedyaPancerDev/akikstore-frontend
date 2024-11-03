@@ -6,7 +6,7 @@ import useCookie from "hooks/useCookie";
 import { ValidateProps } from "types";
 
 const useGetCustomers = (): UseQueryResult<
-  ApiResponse<CustomerResponse[]>,
+  ApiResponse<CustomerResponse>,
   Error
 > => {
   const { getCurrentCookie, getFromLocalStorage } = useCookie();

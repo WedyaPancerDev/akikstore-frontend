@@ -7,7 +7,7 @@ import KuponModule from "./module/KuponModule";
 
 const Kupon = (): JSX.Element => {
   return (
-    <PageContainer title="Kupon - AKIKSTORE" description="#">
+    <PageContainer title="Kupon - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

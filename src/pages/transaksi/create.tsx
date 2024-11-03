@@ -1,9 +1,9 @@
 import * as yup from "yup";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select";
 import toast from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Box, Button, Theme, Typography, useMediaQuery } from "@mui/material";
 
 import CustomFormLabel from "components/FormLabel";
@@ -15,11 +15,44 @@ import { getCustomStyle } from "utils/react-select";
 
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { createShippingCost } from "services/shippingCost";
+import {
+  createShippingCost,
+  GetShippingCostResponse,
+} from "services/shippingCost";
+import { nanoid } from "nanoid";
+import { useGetCustomers } from "hooks/react-query/useCustomer";
+import { useShippingCost } from "hooks/react-query/useShippingCost";
+
+import OutlinedButton from "components/Button/ButtonOutline";
+import { IconPlus } from "@tabler/icons-react";
+
+interface EmptyOptionProps {
+  cuid: string;
+  product_id: string;
+  quantity: string;
+}
+
+interface UserSelected {
+  id: string;
+  fullname: string;
+}
 
 const formSchema = yup.object().shape({
-  products: yup.object().required("Produk diperlukan"),
-  payment_method: yup.object().required("Metode pembayaran diperlukan"),
+  product_id: yup.object().required("Produk diperlukan"),
+  quantity: yup
+    .string()
+    .required("Jumlah produk diperlukan")
+    .matches(
+      /\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/gi,
+      "Format jumlah produk tidak sesuai"
+    )
+    .min(1, "Jumlah produk minimal 1 digit")
+    .max(2, "Jumlah produk maksimal 2 digit"),
+});
+
+const formSchemaNew = yup.object().shape({
+  products: yup.array().of(formSchema),
+  customer: yup.object().required("Pelanggan diperlukan"),
   courier: yup.object().required("Kurir pengiriman diperlukan"),
 });
 
@@ -28,23 +61,46 @@ const transactionTypeList = [
   // { value: "automatic", label: "Pembayaran Online" },
 ];
 
+const getEmptyOption = (index?: number): EmptyOptionProps => {
+  return {
+    cuid: `${nanoid()}-${index}`,
+    product_id: "",
+    quantity: "",
+  };
+};
+
 const CreateSettingKurir = (): JSX.Element => {
+  const lastMemberRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+
+  const { data: customerData, isLoading: isLoadingCustomer } =
+    useGetCustomers();
+  const { data: shippingCostData, isLoading: isLoadingShippingCost } =
+    useShippingCost();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { control, watch, handleSubmit } = useForm({
     defaultValues: {
       courier: "",
-      payment_method: "",
-      products: "",
+      customer: "",
+      products: [],
     },
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(formSchemaNew),
   });
 
   const form = watch();
+  const { products: productSection } = form;
+
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "products",
+  });
 
   // ** VARIABLE
 
@@ -56,6 +112,24 @@ const CreateSettingKurir = (): JSX.Element => {
   // ** HOOKS
 
   // ** END HOOKS
+
+  const handleAddNewSection = (): void => {
+    const total = fields.length + 1;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    append(getEmptyOption(total));
+
+    timeoutRef.current = setTimeout(() => {
+      lastMemberRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const handleDeleteSection = (index: number): void => {
+    remove(index);
+  };
 
   const resetForm = () => {};
 
@@ -83,7 +157,7 @@ const CreateSettingKurir = (): JSX.Element => {
   };
 
   return (
-    <PageContainer title="Kurir Tambah - AKIKSTORE" description="#">
+    <PageContainer title="Kurir Tambah - ANTIKSTORE" description="#">
       <Box
         component="section"
         sx={{
@@ -114,24 +188,25 @@ const CreateSettingKurir = (): JSX.Element => {
           marginBottom={4}
         >
           <Controller
-            name="products"
+            name="customer"
             control={control}
             render={({ field, fieldState: { error } }) => {
               return (
                 <Box className="form-control">
-                  <CustomFormLabel htmlFor="product">
-                    Tentukan Produk <span>*</span>
+                  <CustomFormLabel htmlFor="customer">
+                    Tentukan Pelanggan <span>*</span>
                   </CustomFormLabel>
 
-                  <Select<ReactSelectValueProps>
+                  <Select<UserSelected>
                     {...(field as any)}
-                    inputId="product"
+                    inputId="customer"
                     classNamePrefix="select"
-                    getOptionLabel={(option) => option.label}
-                    getOptionValue={(option) => option.value}
-                    options={[]}
-                    isMulti
-                    placeholder="Pilih Produk"
+                    getOptionLabel={(option) => option.fullname}
+                    getOptionValue={(option) => option.id}
+                    options={customerData?.data || []}
+                    isLoading={isLoadingCustomer}
+                    isDisabled={isLoadingCustomer}
+                    placeholder="Pilih Pelanggan"
                     styles={getCustomStyle(error)}
                   />
 
@@ -151,23 +226,25 @@ const CreateSettingKurir = (): JSX.Element => {
           />
 
           <Controller
-            name="payment_method"
+            name="courier"
             control={control}
             render={({ field, fieldState: { error } }) => {
               return (
                 <Box className="form-control">
-                  <CustomFormLabel htmlFor="payment_method">
-                    Tentukan Metode Pembayaran <span>*</span>
+                  <CustomFormLabel htmlFor="courier">
+                    Tentukan Kurir <span>*</span>
                   </CustomFormLabel>
 
-                  <Select<ReactSelectValueProps>
+                  <Select<GetShippingCostResponse>
                     {...(field as any)}
-                    inputId="payment_method"
+                    inputId="courier"
                     classNamePrefix="select"
-                    getOptionLabel={(option) => option.label}
-                    getOptionValue={(option) => option.value}
-                    options={transactionTypeList || []}
-                    placeholder="Pilih Metode Pembayaran"
+                    getOptionLabel={(option) => option.name?.toUpperCase()}
+                    getOptionValue={(option) => option.id}
+                    options={shippingCostData?.data || []}
+                    placeholder="Pilih Kurir"
+                    isLoading={isLoadingShippingCost}
+                    isDisabled={isLoadingShippingCost}
                     styles={getCustomStyle(error)}
                   />
 
@@ -185,6 +262,97 @@ const CreateSettingKurir = (): JSX.Element => {
               );
             }}
           />
+
+          <Box sx={{ marginTop: 4 }}>
+            <Typography variant="body1" fontWeight={600}>
+              List Barang yang ingin ditambahkan
+            </Typography>
+
+            <Box
+              component="div"
+              className="container-list"
+              sx={{
+                marginTop: "2rem",
+                gridColumn: mdUp ? "span 2 / span 2" : "span 1 / span 1",
+              }}
+            >
+              {productSection?.map((product, index) => {
+                const isLast = index === fields.length - 1;
+
+                return (
+                  <Box key={index} ref={isLast ? lastMemberRef : null}>
+                    <Controller
+                      name={`products.${index}.product_id`}
+                      control={control}
+                      render={({ field, fieldState: { error } }) => {
+                        return (
+                          <Box className="form-control">
+                            <CustomFormLabel
+                              htmlFor={`products.${index}.product_id`}
+                            >
+                              Tentukan Produk <span>*</span>
+                            </CustomFormLabel>
+
+                            <Select<ReactSelectValueProps>
+                              {...(field as any)}
+                              inputId={`products.${index}.product_id`}
+                              classNamePrefix="select"
+                              getOptionLabel={(option) => option.label}
+                              getOptionValue={(option) => option.value}
+                              placeholder="Pilih Produk"
+                              options={[]}
+                              styles={getCustomStyle(error)}
+                            />
+
+                            {error && (
+                              <Typography
+                                variant="caption"
+                                fontSize="12px"
+                                fontWeight={600}
+                                color="red"
+                              >
+                                {error.message}
+                              </Typography>
+                            )}
+                          </Box>
+                        );
+                      }}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              borderRadius: 0,
+              marginTop: "1rem",
+              gridColumn: mdUp ? "span 2 / span 2" : "span 1 / span 1",
+            }}
+          >
+            <OutlinedButton
+              fullWidth
+              size="large"
+              type="button"
+              color="inherit"
+              onClick={() => {
+                handleAddNewSection();
+              }}
+              disabled={isSubmitting}
+              sx={{
+                paddingY: "8px",
+                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                border: "1px dashed #000",
+                gap: "4px",
+              }}
+            >
+              <IconPlus size={20} />
+              <span>Tambah Barang</span>
+            </OutlinedButton>
+          </Box>
 
           <Box
             marginTop={3}

@@ -5,7 +5,7 @@ import SettingKurirModule from "./module/SettingKurir";
 
 const SettingKurir = (): JSX.Element => {
   return (
-    <PageContainer title="SettingKurir - AKIKSTORE" description="#">
+    <PageContainer title="SettingKurir - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

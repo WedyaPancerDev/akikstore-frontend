@@ -144,7 +144,7 @@ const CreateSettingKurir = (): JSX.Element => {
   };
 
   return (
-    <PageContainer title="Kurir Tambah - AKIKSTORE" description="#">
+    <PageContainer title="Kurir Tambah - ANTIKSTORE" description="#">
       <Box
         component="section"
         sx={{

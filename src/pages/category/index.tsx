@@ -5,7 +5,7 @@ import CategoryModule from "./module/CategoryModule";
 
 const Category = (): JSX.Element => {
   return (
-    <PageContainer title="Kategori - AKIKSTORE" description="#">
+    <PageContainer title="Kategori - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

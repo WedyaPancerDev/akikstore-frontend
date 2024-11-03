@@ -213,7 +213,7 @@ const EditProduk = (): JSX.Element => {
   }, [productByCode, categories, setValue]);
 
   return (
-    <PageContainer title="Edit Produk - AKIKSTORE" description="#">
+    <PageContainer title="Edit Produk - ANTIKSTORE" description="#">
       {isLoadingGetProductByCode ? (
         <PageLoaderTwo />
       ) : (

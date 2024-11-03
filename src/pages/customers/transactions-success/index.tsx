@@ -4,7 +4,7 @@ import FinalStep from "./module/FinalStep";
 
 const TransactionSuccess = () => {
   return (
-    <PageContainer title="AKIKSTORE - Pembayaran" description="#">
+    <PageContainer title="ANTIKSTORE - Pembayaran" description="#">
       <Box sx={{ marginTop: "20px" }}>
         <FinalStep />
       </Box>

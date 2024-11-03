@@ -6,7 +6,7 @@ import IncomeModule from "./module/IncomeModule";
 
 const Income = (): JSX.Element => {
   return (
-    <PageContainer title="Income - AKIKSTORE" description="#">
+    <PageContainer title="Income - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

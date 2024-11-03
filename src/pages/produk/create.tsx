@@ -182,7 +182,7 @@ const TambahProduk = (): JSX.Element => {
   };
 
   return (
-    <PageContainer title="Tambah Produk - AKIKSTORE" description="#">
+    <PageContainer title="Tambah Produk - ANTIKSTORE" description="#">
       <Box
         component="section"
         sx={{

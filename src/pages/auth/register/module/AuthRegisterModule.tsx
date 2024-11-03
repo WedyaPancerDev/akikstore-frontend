@@ -582,7 +582,7 @@ const AuthRegister = (): JSX.Element => {
         mt="10px"
       >
         <Typography variant="caption" fontWeight={600}>
-          @{new Date().getFullYear()} - AKIKSTORE
+          @{new Date().getFullYear()} - ANTIKSTORE
         </Typography>
 
         <Typography variant="caption" fontWeight={600}>

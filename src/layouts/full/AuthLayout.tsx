@@ -15,7 +15,7 @@ const AuthLayout = ({
   children,
 }: AuthLayoutProps): JSX.Element => {
   return (
-    <PageContainer title={`${title} - AKIKSTORE`} description={description}>
+    <PageContainer title={`${title} - ANTIKSTORE`} description={description}>
       <Grid
         container
         spacing={0}
@@ -75,7 +75,7 @@ const AuthLayout = ({
                   color="textPrimary"
                   sx={{ marginTop: 5 }}
                 >
-                  Jual Beli Batu Akik dan Pusaka Terpercaya
+                  Jual Beli Barang Antik Terpercaya
                 </Typography>
               </Box>
             </Box>

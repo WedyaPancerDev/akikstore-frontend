@@ -5,7 +5,7 @@ import TransactionModule from "./module/TransaksiModule";
 
 const Transaksi = (): JSX.Element => {
   return (
-    <PageContainer title="Transaksi - AKIKSTORE" description="#">
+    <PageContainer title="Transaksi - ANTIKSTORE" description="#">
       <BannerTag
         type="dashboard"
         dataDashboard={{

@@ -4,7 +4,7 @@ import PageContainer from "components/Container/PageContainer";
 const TransactionsDetail = () => {
   return (
     <PageContainer
-      title="AKIKSTORE - Riwayat Transaksi Pelanggan"
+      title="ANTIKSTORE - Riwayat Transaksi Pelanggan"
       description="#"
     >
       <TransactionDetailModule />
